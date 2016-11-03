@@ -4,4 +4,4 @@ version: 1.0-SNAPSHOT
 author: ETblaky
 
 commands:
-   join:
+   hg:

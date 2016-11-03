@@ -132,6 +132,8 @@ public class Game {
     }
 
     public void stop(){
+        lobby.state = Lobby.MatchState.RELOADING;
+
         getTimer().stop();
 
         for(Player p : players) {
@@ -143,6 +145,15 @@ public class Game {
 
         //TODO: Teleport to spawn
 
+        lobby.reset();
+        reset();
+
+    }
+
+    public void reset(){
+        timer.time = 0;
+        players.clear();
+        spectators.clear();
     }
 
 }

@@ -62,6 +62,7 @@ public class LobbyTimer {
                 if(time == 120){
                     if(lobby.getPlayers().size() > 0){
                         lobby.stop();
+                        return;
                     }
 
                     lobby.broadcast("Não tem jogadores suficientes para iniciar a partida!");

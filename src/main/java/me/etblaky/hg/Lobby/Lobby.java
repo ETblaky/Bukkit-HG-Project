@@ -17,6 +17,14 @@ import java.util.List;
  */
 public class Lobby {
 
+    public enum MatchState {
+        LOBBY,
+        GAME,
+        RELOADING;
+    }
+
+    public MatchState state;
+
     public LobbyScoreboard board;
     public LobbyTimer timer;
 
@@ -30,6 +38,8 @@ public class Lobby {
     public ArrayList<ItemStack> items = new ArrayList<ItemStack>();
 
     public Lobby(String n) {
+        state = MatchState.RELOADING;
+
         game = new Game(n, this);
 
         board = new LobbyScoreboard(this);
@@ -78,6 +88,12 @@ public class Lobby {
     }
 
     public void addPlayer(Player p){
+        if(players.contains(p)) {p.sendMessage("You already are in this match!"); return;}
+        if(!state.equals(MatchState.LOBBY)) {p.sendMessage("You cannot enter in this match!"); return; }
+        if(players.size() == 60) {p.sendMessage("This match is full!"); return; }
+
+        p.getInventory().clear();
+
         p.teleport(loc);
         players.add(p);
 
@@ -114,6 +130,8 @@ public class Lobby {
     public void start(){
         getTimer().start();
 
+        state = MatchState.LOBBY;
+
     }
 
     public void stop(){
@@ -125,6 +143,18 @@ public class Lobby {
 
         game.start();
 
+        state = MatchState.GAME;
+
+    }
+
+    public void reset(){
+
+        state = MatchState.RELOADING;
+
+        players.clear();
+        timer.time = 0;
+
+        start();
     }
 
 }
