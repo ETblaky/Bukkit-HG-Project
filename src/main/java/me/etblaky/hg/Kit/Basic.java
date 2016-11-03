@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class Basic {
 
-    public static ItemStack[] items = new ItemStack[] {Is(Material.WOOD_SWORD, 1), Is(Material.MUSHROOM_SOUP, 8)};
+    public static ItemStack[] items = new ItemStack[] {Is(Material.WOOD_SWORD, 1), Is(Material.MUSHROOM_SOUP, 7)};
     public static String name = "Basic";
 
     public static ItemStack[] getItems(){
