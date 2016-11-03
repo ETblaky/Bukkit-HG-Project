@@ -1,0 +1,7 @@
+name: HG-Project
+main: me.etblaky.hg.Main
+version: 1.0-SNAPSHOT
+author: ETblaky
+
+commands:
+   join:
