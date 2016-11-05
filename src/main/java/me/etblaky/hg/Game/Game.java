@@ -122,8 +122,13 @@ public class Game {
         for(Player p : players) {
             p.getInventory().clear();
             for (ItemStack is : kits.getItems(p)) {
-                for(int i = 0; i < is.getAmount(); i ++){
-                    p.getInventory().addItem(new ItemStack(is.getType()));
+                if(is.getMaxStackSize() > 1){
+                    p.getInventory().addItem(is);
+                }
+                else {
+                    for(int i = 0; i < is.getAmount(); i ++){
+                        p.getInventory().addItem(new ItemStack(is.getType()));
+                    }
                 }
             }
 
