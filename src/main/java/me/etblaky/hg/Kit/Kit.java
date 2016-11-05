@@ -2,12 +2,14 @@ package me.etblaky.hg.Kit;
 
 import me.etblaky.hg.Kit.Kits.Achilles;
 import me.etblaky.hg.Kit.Kits.Anchor;
+import me.etblaky.hg.Kit.Kits.Archer;
 import me.etblaky.hg.Kit.Kits.Basic;
 import me.etblaky.hg.Lobby.Lobby;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+
 
 /**
  * Created by ETblaky on 31/10/2016.
@@ -17,7 +19,8 @@ public class Kit {
     public enum Kits {
         BASIC,
         ACHILLES,
-        ANCHOR
+        ANCHOR,
+        ARCHER
     }
 
     public Lobby l;
@@ -33,53 +36,63 @@ public class Kit {
 
     public String getName(Player p){
         if(playersKits.get(p).equals(Kits.BASIC)){
-            return Basic.getName();
+            return new Basic((this)).getName();
         }
         if(playersKits.get(p).equals(Kits.ACHILLES)){
-            return Achilles.getName();
+            return new Achilles(this).getName();
         }
         if(playersKits.get(p).equals(Kits.ANCHOR)){
-            return Anchor.getName();
+            return new Anchor(this).getName();
+        }
+        if(playersKits.get(p).equals(Kits.ARCHER)){
+            return new Archer(this).getName();
         }
         return null;
     }
 
     public ItemStack[] getItems(Player p){
-        if(playersKits
-                .get(p)
-                .equals(Kits.BASIC)){
-            return Basic.getItems();
+        if(playersKits.get(p).equals(Kits.BASIC)){
+            return new Basic(this).getItems();
         }
         if(playersKits.get(p).equals(Kits.ACHILLES)){
-            return Achilles.getItems();
+            return new Achilles(this).getItems();
         }
         if(playersKits.get(p).equals(Kits.ANCHOR)){
-            return Anchor.getItems();
+            return new Anchor(this).getItems();
+        }
+        if(playersKits.get(p).equals(Kits.ARCHER)){
+            return new Archer(this).getItems();
         }
         return null;
     }
 
     public void setAbilities(Player p){
         if(playersKits.get(p).equals(Kits.BASIC)){
-            Basic.setAbilities(p);
+            new Basic((this)).setAbilities(p);
         }
         if(playersKits.get(p).equals(Kits.ACHILLES)){
-            Achilles.setAbilities(p);
+            new Achilles(this).setAbilities(p);
         }
         if(playersKits.get(p).equals(Kits.ANCHOR)){
-            Anchor.setAbilities(p);
+            new Anchor(this).setAbilities(p);
+        }
+        if(playersKits.get(p).equals(Kits.ARCHER)){
+            new Archer(this).setAbilities(p);
         }
     }
 
     public void removeAbilities(Player p){
         if(playersKits.get(p).equals(Kits.BASIC)){
-            Basic.removeAbilities(p);
+            new Basic(this).removeAbilities(p);
         }
         if(playersKits.get(p).equals(Kits.ACHILLES)){
-            Achilles.setAbilities(p);
+            new Achilles(this).removeAbilities(p);
         }
         if(playersKits.get(p).equals(Kits.ANCHOR)){
-            Anchor.setAbilities(p);
+            new Anchor(this).removeAbilities(p);
+        }
+        if(playersKits.get(p).equals(Kits.ARCHER)){
+            new Archer(this).removeAbilities(p);
         }
     }
 

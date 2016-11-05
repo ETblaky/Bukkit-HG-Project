@@ -1,8 +1,8 @@
 package me.etblaky.hg.Kit.Kits;
 
 import me.etblaky.hg.Kit.Kit;
+import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -12,28 +12,30 @@ import org.bukkit.util.Vector;
 /**
  * Created by ETblaky on 04/11/2016.
  */
-public class Anchor {
+public class Anchor extends KitBase{
 
-    public static ItemStack[] items = new ItemStack[] {};
-    public static String name = "Anchor";
+    public ItemStack[] items = new ItemStack[] {};
+    public String name = "Anchor";
 
     public Kit k;
+
+    public Anchor(){ }
 
     public Anchor(Kit k){
         this.k = k;
     }
 
-    public static ItemStack[] getItems(){
+    public ItemStack[] getItems(){
         return items;
     }
 
-    public static String getName() {
+    public String getName() {
         return name;
     }
 
-    public static void setAbilities(Player p){ }
+    public void setAbilities(Player p){ }
 
-    public static void removeAbilities(Player p){  }
+    public void removeAbilities(Player p){  }
 
     @EventHandler
     public void disableKnockBack(EntityDamageByEntityEvent e){
@@ -46,10 +48,5 @@ public class Anchor {
         e.getEntity().setVelocity(new Vector());
 
     }
-
-    public static ItemStack Is(Material m, int q){
-        return new ItemStack(m, q);
-    }
-
 
 }

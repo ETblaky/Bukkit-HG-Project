@@ -1,39 +1,41 @@
 package me.etblaky.hg.Kit.Kits;
 
 import me.etblaky.hg.Kit.Kit;
+import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by ETblaky on 04/11/2016.
  */
-public class Achilles implements Listener{
+public class Achilles extends KitBase{
 
-    public static ItemStack[] items = new ItemStack[] {};
-    public static String name = "Achilles";
+    public ItemStack[] items = new ItemStack[] {};
+    public String name = "Achilles";
 
     public Kit k;
+
+    public Achilles(){ }
 
     public Achilles(Kit k){
         this.k = k;
     }
 
-    public static ItemStack[] getItems(){
+    public ItemStack[] getItems(){
         return items;
     }
 
-    public static String getName() {
+    public String getName() {
         return name;
     }
 
-    public static void setAbilities(Player p){ }
+    public void setAbilities(Player p){ }
 
-    public static void removeAbilities(Player p){ }
+    public void removeAbilities(Player p){ }
 
     @EventHandler
     public void playerDamage(EntityDamageByEntityEvent e){
@@ -56,10 +58,6 @@ public class Achilles implements Listener{
             e.setDamage(4); //Wood Damage
         }
 
-    }
-
-    public static ItemStack Is(Material m, int q){
-        return new ItemStack(m, q);
     }
 
 }
