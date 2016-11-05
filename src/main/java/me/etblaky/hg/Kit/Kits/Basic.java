@@ -1,11 +1,11 @@
-package me.etblaky.hg.Kit;
+package me.etblaky.hg.Kit.Kits;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * Created by Meu computador on 31/10/2016.
+ * Created by ETblaky on 31/10/2016.
  */
 public class Basic {
 

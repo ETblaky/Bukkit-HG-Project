@@ -1,5 +1,6 @@
 package me.etblaky.hg.Game;
 
+import me.etblaky.Main;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Lobby.Lobby;
 import org.bukkit.Bukkit;
@@ -40,7 +41,7 @@ public class Game {
         board = new GameScoreboard(this);
         timer = new GameTimer(this);
 
-        kits = new Kit();
+        kits = lobby.getKit();
 
         games.add(this);
     }
@@ -81,7 +82,9 @@ public class Game {
 
             players.get(i).setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 
-            //TODO: Teleport to spawn
+            kits.removeAbilities(p);
+
+            p.teleport(Main.getSpawn());
         }
 
         for(int i = 0; i < spectators.size(); i++){
@@ -91,7 +94,7 @@ public class Game {
 
             spectators.get(i).setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 
-            //TODO: Teleport to spawn
+            p.teleport(Main.getSpawn());
             p.setGameMode(GameMode.ADVENTURE);
         }
     }
@@ -105,16 +108,20 @@ public class Game {
                 players.remove(i);
             }
         }
+
+        p.teleport(loc);
     }
 
     public static List<Game> getGames(){
         return games;
     }
 
-    public void start(){
+    public void start(Kit k){
+        this.kits = k;
+
         for(Player p : players) {
             p.getInventory().clear();
-            for (ItemStack is : kits.getKit(p).getItems()) {
+            for (ItemStack is : kits.getItems(p)) {
                 for(int i = 0; i < is.getAmount(); i ++){
                     p.getInventory().addItem(new ItemStack(is.getType()));
                 }
@@ -141,10 +148,10 @@ public class Game {
             p.setGameMode(GameMode.CREATIVE);
             p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
             kits.removeAbilities(p);
+            p.teleport(Main.getSpawn());
         }
 
-        //TODO: Teleport to spawn
-
+        kits.playersKits.clear();
         lobby.reset();
         reset();
 

@@ -6,21 +6,30 @@ import me.etblaky.hg.Kit.KitGUI;
 import me.etblaky.hg.Lobby.Lobby;
 import me.etblaky.hg.Lobby.LobbyListener;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Created by ETblaky on 31/10/2016.
  */
-public class Main extends JavaPlugin {
+public class Main extends JavaPlugin implements Listener{
 
     public void onEnable(){
         Bukkit.getServer().getPluginManager().registerEvents(new GameListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new LobbyListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new KitGUI(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(this, this);
+
     }
 
     @Override
@@ -34,7 +43,7 @@ public class Main extends JavaPlugin {
             if(args[0].equalsIgnoreCase("create")){
                 if(args.length < 2) { sender.sendMessage("You need to specify a name!"); return true;}
 
-                Lobby l = new Lobby(args[1]);
+                new Lobby(args[1]);
                 //l.addPlayer((Player) sender);
 
                 sender.sendMessage("Match created!");
@@ -82,6 +91,39 @@ public class Main extends JavaPlugin {
 
     public static Plugin getInstance(){
         return Bukkit.getPluginManager().getPlugin("HG-Project");
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e){
+        e.getPlayer().getInventory().clear();
+
+        ItemStack compass = new ItemStack(Material.COMPASS);
+        ItemMeta imCompass = compass.getItemMeta();
+
+        imCompass.setDisplayName("Entrar numa partida");
+        compass.setItemMeta(imCompass);
+
+        e.getPlayer().getInventory().setItem(0, compass);
+
+    }
+
+    @EventHandler
+    public void clickItem(PlayerInteractEvent e){
+
+        if(e.getPlayer().getItemInHand().getType().equals(Material.COMPASS)) {
+            if (!e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Entrar numa partida")) return;
+
+            //TODO: Vips can choose the match.
+
+            for(Game g : Game.getGames()){
+                if(g.getLobby().addPlayer(e.getPlayer())){
+                    return;
+                }
+            }
+
+            e.getPlayer().sendMessage("Não há nenhuma partida disponível!");
+
+        }
     }
 
 }

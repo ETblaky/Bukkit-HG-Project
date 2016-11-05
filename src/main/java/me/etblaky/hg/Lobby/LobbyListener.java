@@ -1,7 +1,6 @@
 package me.etblaky.hg.Lobby;
 
 import me.etblaky.hg.Game.Game;
-import me.etblaky.hg.Kit.KitGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,13 +34,13 @@ public class LobbyListener implements Listener{
             }
         }
 
-        if(e.getPlayer().getItemInHand().getType().equals(Material.STICK)) {
+        if(e.getPlayer().getItemInHand().getType().equals(Material.COMPASS)) {
             if (!e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Kits")) return;
 
             for (Game g : Game.getGames()) {
                 for (Player p : g.getLobby().getPlayers()) {
                     if (p.getUniqueId().equals(e.getPlayer().getUniqueId())) {
-                        p.openInventory(new KitGUI(lobby.getKit()).getInv());
+                        p.openInventory(lobby.getGUI().getInv());
                         return;
                     }
                 }

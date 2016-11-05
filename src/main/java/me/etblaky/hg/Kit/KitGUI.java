@@ -20,7 +20,7 @@ public class KitGUI implements Listener{
 
     public Kit kit;
 
-    public static Inventory inv = Bukkit.createInventory(null, 9, "Choose a kit");
+    public Inventory inv = Bukkit.createInventory(null, 9, "Choose a kit");
 
     public KitGUI(){
     }
@@ -28,7 +28,9 @@ public class KitGUI implements Listener{
     public KitGUI(Kit k) {
         kit = k;
 
-        inv.setItem(0, getItem(Material.WOOD_SWORD, "Basic"));
+        inv.setItem(0, getItem(Material.GRASS, "Basic", "Gives you more 5 hearts, a sword and 8 soups."));
+        inv.setItem(1, getItem(Material.WOOD_SWORD, "Achillis", "Espada de Diamante te dará dano de Espada de Madeira, a de Ferro te dará dano de Pedra, o mesmo ao contrario."));
+        inv.setItem(2, getItem(Material.ANVIL, "Anchor", "Você e seu adversario não receberão knockback"));
 
     }
 
@@ -41,36 +43,66 @@ public class KitGUI implements Listener{
 
         if (inventory.getName().equals(inv.getName())) {
 
+            if (clicked.getType() == Material.GRASS) {
+                e.setCancelled(true);
+                player.closeInventory();
+
+                for(Game g : Game.getGames()){
+                    if(g.getLobby().getPlayers().contains(player)){
+                        g.getLobby().getKit().playersKits.put(player, Kit.Kits.BASIC);
+
+                        System.out.println(g.getLobby().getKit().playersKits.values());
+                    }
+                }
+            }
+
             if (clicked.getType() == Material.WOOD_SWORD) {
                 e.setCancelled(true);
                 player.closeInventory();
-                setKit(player, Kit.Kits.BASIC);
+
+                for(Game g : Game.getGames()){
+                    if(g.getLobby().getPlayers().contains(player)){
+                        g.getLobby().getKit().playersKits.put(player, Kit.Kits.ACHILLES);
+
+                        System.out.println(g.getLobby().getKit().playersKits.values());
+                    }
+                }
+
+            }
+
+            if (clicked.getType() == Material.ANVIL) {
+                e.setCancelled(true);
+                player.closeInventory();
+
+                for(Game g : Game.getGames()){
+                    if(g.getLobby().getPlayers().contains(player)){
+                        g.getLobby().getKit().playersKits.put(player, Kit.Kits.ANCHOR);
+
+                        System.out.println(g.getLobby().getKit().playersKits.values());
+                    }
+                }
             }
 
         }
     }
 
-    public static Inventory getInv(){
+    public Inventory getInv(){
         return inv;
     }
 
-    public void setKit(Player p, Kit.Kits k){
-        for(Game g : Game.getGames()){
-            for(Player p1 : g.getPlayers()){
-                if(p1.getUniqueId().equals(p.getUniqueId())){
-                    g.getKit().setKit(p1, k);
-                }
-            }
-        }
-    }
-
-    public ItemStack getItem(Material m, String name){
+    public ItemStack getItem(Material m, String name, String desc){
         ItemStack is = new ItemStack(m);
         ItemMeta im = is.getItemMeta();
 
         im.setDisplayName(name);
         ArrayList<String> lore = new ArrayList<String>();
-        lore.add("Gives you more 5 hearts, a sword and 8 soups.");
+
+        String[] descArr = desc.split(",");
+
+        for(String s : descArr){
+            lore.add(s);
+        }
+
         im.setLore(lore);
 
         is.setItemMeta(im);

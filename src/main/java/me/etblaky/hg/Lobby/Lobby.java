@@ -1,7 +1,9 @@
 package me.etblaky.hg.Lobby;
 
+import me.etblaky.Main;
 import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
+import me.etblaky.hg.Kit.KitGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Meu computador on 31/10/2016.
+ * Created by ETblaky on 31/10/2016.
  */
 public class Lobby {
 
@@ -32,6 +34,8 @@ public class Lobby {
 
     public Game game;
 
+    public KitGUI gui;
+
     public ArrayList<Player> players = new ArrayList<Player>();
     public Location loc = new Location(Bukkit.getWorld("world"), 23 , 4, 23);
 
@@ -47,6 +51,8 @@ public class Lobby {
 
         kits = new Kit();
 
+        gui = new KitGUI(kits);
+
         LobbyListener.setUp(this);
 
         ItemStack watch = new ItemStack(Material.WATCH);
@@ -55,14 +61,14 @@ public class Lobby {
         imWatch.setDisplayName("Voltar");
         watch.setItemMeta(imWatch);
 
-        ItemStack stick = new ItemStack(Material.STICK);
-        ItemMeta imStick = stick.getItemMeta();
+        ItemStack compass = new ItemStack(Material.COMPASS);
+        ItemMeta imCompass = compass.getItemMeta();
 
-        imStick.setDisplayName("Kits");
-        stick.setItemMeta(imStick);
+        imCompass.setDisplayName("Kits");
+        compass.setItemMeta(imCompass);
 
         items.add(watch);
-        items.add(stick);
+        items.add(compass);
 
         start();
     }
@@ -83,30 +89,35 @@ public class Lobby {
         return game;
     }
 
+    public KitGUI getGUI() { return gui; }
+
     public List<Player> getPlayers(){
         return players;
     }
 
-    public void addPlayer(Player p){
-        if(players.contains(p)) {p.sendMessage("You already are in this match!"); return;}
-        if(!state.equals(MatchState.LOBBY)) {p.sendMessage("You cannot enter in this match!"); return; }
-        if(players.size() == 60) {p.sendMessage("This match is full!"); return; }
+    public boolean addPlayer(Player p){
+        if(players.contains(p)) {p.sendMessage("You already are in this match!"); return false;}
+        if(!state.equals(MatchState.LOBBY)) {p.sendMessage("You cannot enter in this match!"); return false; }
+        if(players.size() == 60) {p.sendMessage("This match is full!"); return false; }
 
         p.getInventory().clear();
 
         p.teleport(loc);
         players.add(p);
 
+        kits.playersKits.put(p, Kit.Kits.BASIC);
+
         for(ItemStack is : items){
 
             if(is.getType().equals(Material.WATCH)){
                 p.getInventory().setItem(8, is);
             }
-            if(is.getType().equals(Material.STICK)) {
+            if(is.getType().equals(Material.COMPASS)) {
                 p.getInventory().setItem(0, is);
             }
         }
 
+        return true;
     }
 
     public void removePlayer(Player p){
@@ -118,7 +129,7 @@ public class Lobby {
             }
         }
 
-        //TODO: Teleport to spawn
+        p.teleport(Main.getSpawn());
     }
 
     public void broadcast(String s){
@@ -141,7 +152,7 @@ public class Lobby {
             game.addPlayer(p);
         }
 
-        game.start();
+        game.start(kits);
 
         state = MatchState.GAME;
 

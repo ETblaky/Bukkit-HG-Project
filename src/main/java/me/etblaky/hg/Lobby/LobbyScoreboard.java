@@ -6,7 +6,7 @@ import org.bukkit.scoreboard.*;
 import org.bukkit.ChatColor;
 
 /**
- * Created by Meu computador on 31/10/2016.
+ * Created by ETblaky on 31/10/2016.
  */
 public class LobbyScoreboard {
 
@@ -18,6 +18,7 @@ public class LobbyScoreboard {
     Objective objective;
     Score kit;
     Score time;
+    Score players;
 
     public LobbyScoreboard(Lobby l) {
         lobby = l;
@@ -28,8 +29,7 @@ public class LobbyScoreboard {
 
         objective = board.registerNewObjective("obj", "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        objective.setDisplayName(
-                lobby.getGame().getName());
+        objective.setDisplayName(lobby.getGame().getName());
 
     }
 
@@ -40,10 +40,15 @@ public class LobbyScoreboard {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName(lobby.getGame().name);
 
-        kit = objective.getScore(ChatColor.GREEN + "Kit: " + lobby.getKit().getKit(p).getName());
-        time = objective.getScore(ChatColor.GREEN + "Time: " + (lobby.getTimer().getTime() - 1));
+        System.out.println(lobby.getKit().getName(p));
+
+        kit = objective.getScore(ChatColor.GREEN + "Kit: " + lobby.getKit().getName(p));
+        time = objective.getScore(ChatColor.GREEN + "Time: " + lobby.getTimer().getTime());
+        players = objective.getScore(ChatColor.GREEN + "Players: " + lobby.players.size());
+
         time.setScore(0);
         kit.setScore(0);
+        players.setScore(0);
 
         p.setScoreboard(board);
 
