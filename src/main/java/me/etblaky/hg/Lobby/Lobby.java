@@ -61,14 +61,14 @@ public class Lobby {
         imWatch.setDisplayName("Voltar");
         watch.setItemMeta(imWatch);
 
-        ItemStack compass = new ItemStack(Material.COMPASS);
-        ItemMeta imCompass = compass.getItemMeta();
+        ItemStack chest = new ItemStack(Material.CHEST);
+        ItemMeta imChest = chest.getItemMeta();
 
-        imCompass.setDisplayName("Kits");
-        compass.setItemMeta(imCompass);
+        imChest.setDisplayName("Kits");
+        chest.setItemMeta(imChest);
 
         items.add(watch);
-        items.add(compass);
+        items.add(chest);
 
         start();
     }

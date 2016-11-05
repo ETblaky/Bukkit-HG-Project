@@ -34,7 +34,7 @@ public class LobbyListener implements Listener{
             }
         }
 
-        if(e.getPlayer().getItemInHand().getType().equals(Material.COMPASS)) {
+        if(e.getPlayer().getItemInHand().getType().equals(Material.CHEST)) {
             if (!e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Kits")) return;
 
             for (Game g : Game.getGames()) {
