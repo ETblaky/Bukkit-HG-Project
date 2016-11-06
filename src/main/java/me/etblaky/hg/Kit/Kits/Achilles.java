@@ -1,5 +1,6 @@
 package me.etblaky.hg.Kit.Kits;
 
+import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
@@ -39,10 +40,18 @@ public class Achilles extends KitBase{
 
     @EventHandler
     public void playerDamage(EntityDamageByEntityEvent e){
+        for(Game g : Game.getGames()){
+            for(Player p : g.getLobby().getPlayers()){
+                if(p.getUniqueId().equals(((Player) e.getDamager()).getUniqueId())){
+                    k = g.getLobby().getKit();
+                }
+            }
+        }
+
         if(!(e.getEntity() instanceof Player)) return;
         if(!(e.getDamager() instanceof  Player)) return;
-        if(k.playersKits.get((Player) e.getEntity()) == null) return;
-        if(!k.playersKits.get((Player) e.getEntity()).equals(Kit.Kits.ACHILLES)) return;
+        if(k.playersKits.get(e.getEntity()) == null) return;
+        if(!k.playersKits.get(e.getEntity()).equals(Kit.Kits.ACHILLES)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
 
         if(((Player) e.getDamager()).getItemInHand().getType().equals(Material.WOOD_SWORD)){

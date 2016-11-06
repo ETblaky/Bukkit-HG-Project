@@ -3,6 +3,7 @@ package me.etblaky.hg;
 import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Game.GameListener;
 import me.etblaky.hg.Kit.KitGUI;
+import me.etblaky.hg.Kit.Kits.*;
 import me.etblaky.hg.Lobby.Lobby;
 import me.etblaky.hg.Lobby.LobbyListener;
 import org.bukkit.Bukkit;
@@ -30,6 +31,20 @@ public class Main extends JavaPlugin implements Listener{
         Bukkit.getServer().getPluginManager().registerEvents(new KitGUI(), this);
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
 
+        setUpKits();
+
+    }
+
+    public void setUpKits(){
+        Bukkit.getServer().getPluginManager().registerEvents(new Achilles(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Anchor(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Archer(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Assassin(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Barbarian(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Basic(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BeastMaster(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Berserker(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Blink(), this);
     }
 
     @Override

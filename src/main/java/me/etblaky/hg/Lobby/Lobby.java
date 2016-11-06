@@ -49,7 +49,7 @@ public class Lobby {
         board = new LobbyScoreboard(this);
         timer = new LobbyTimer(this);
 
-        kits = new Kit();
+        kits = new Kit(this);
 
         gui = new KitGUI(kits);
 
@@ -67,8 +67,15 @@ public class Lobby {
         imChest.setDisplayName("Kits");
         chest.setItemMeta(imChest);
 
+        ItemStack star = new ItemStack(Material.NETHER_STAR);
+        ItemMeta imStar = star.getItemMeta();
+
+        imStar.setDisplayName("Iniciar a partida");
+        star.setItemMeta(imStar);
+
         items.add(watch);
         items.add(chest);
+        items.add(star);
 
         start();
     }
@@ -112,10 +119,17 @@ public class Lobby {
             if(is.getType().equals(Material.WATCH)){
                 p.getInventory().setItem(8, is);
             }
-            if(is.getType().equals(Material.COMPASS)) {
+            if(is.getType().equals(Material.CHEST)) {
                 p.getInventory().setItem(0, is);
             }
+            if(is.getType().equals(Material.NETHER_STAR)) {
+                if(p.isOp()) {
+                    p.getInventory().setItem(4, is);
+                }
+            }
         }
+
+        p.updateInventory();
 
         return true;
     }

@@ -40,8 +40,6 @@ public class LobbyScoreboard {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName(lobby.getGame().name);
 
-        System.out.println(lobby.getKit().getName(p));
-
         kit = objective.getScore(ChatColor.GREEN + "Kit: " + lobby.getKit().getName(p));
         time = objective.getScore(ChatColor.GREEN + "Time: " + lobby.getTimer().getTime());
         players = objective.getScore(ChatColor.GREEN + "Players: " + lobby.players.size());

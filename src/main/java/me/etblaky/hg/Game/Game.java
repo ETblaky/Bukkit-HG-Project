@@ -6,8 +6,10 @@ import me.etblaky.hg.Lobby.Lobby;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +89,7 @@ public class Game {
             p.teleport(Main.getSpawn());
         }
 
-        for(int i = 0; i < spectators.size(); i++){
+        for(int i = 0; i < spectators.size() - 1; i++){
             if(spectators.get(i).getUniqueId().equals(p.getUniqueId())){
                 spectators.remove(i);
             }
@@ -122,19 +124,43 @@ public class Game {
         for(Player p : players) {
             p.getInventory().clear();
             for (ItemStack is : kits.getItems(p)) {
+
                 if(is.getMaxStackSize() > 1){
+                    if(is.getItemMeta().getLore() != null){
+                        ItemMeta im = is.getItemMeta();
+                        im.setLore(is.getItemMeta().getLore());
+                        is.setItemMeta(im);
+                    }
                     p.getInventory().addItem(is);
                 }
+
                 else {
                     for(int i = 0; i < is.getAmount(); i ++){
-                        p.getInventory().addItem(new ItemStack(is.getType()));
+                        ItemStack is1 = new ItemStack(is.getType());
+                        if(is.getItemMeta().getEnchants().size() > 0){
+                            for(Enchantment e : is.getItemMeta().getEnchants().keySet()){
+                                ItemMeta im = is1.getItemMeta();
+                                im.addEnchant(e, is.getItemMeta().getEnchants().get(e), true);
+                                is1.setItemMeta(im);
+                            }
+                        }
+                        if(is.getItemMeta().getLore() != null){
+                            ItemMeta im = is1.getItemMeta();
+                            im.setLore(is.getItemMeta().getLore());
+                            is1.setItemMeta(im);
+                        }
+                        p.getInventory().addItem(is1);
                     }
                 }
+
             }
 
             kits.setAbilities(p);
 
             p.teleport(loc);
+            p.setExp(0);
+            p.setLevel(0);
+            p.updateInventory();
 
         }
 

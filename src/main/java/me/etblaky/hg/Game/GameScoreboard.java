@@ -5,8 +5,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 
-import static me.etblaky.hg.Lobby.LobbyListener.lobby;
-
 /**
  * Created by ETblaky on 31/10/2016.
  */
@@ -40,8 +38,6 @@ public class GameScoreboard {
         objective = board.registerNewObjective("obj", "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName("HG-Project");
-
-        System.out.println(lobby.getKit().getName(p));
 
         kit = objective.getScore(ChatColor.GREEN + "Kit: " + game.getKit().getName(p));
         time = objective.getScore(ChatColor.GREEN + "Time: " + (game.getTimer().getTime() - 1));

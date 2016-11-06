@@ -35,12 +35,27 @@ public class LobbyListener implements Listener{
         }
 
         if(e.getPlayer().getItemInHand().getType().equals(Material.CHEST)) {
+            if (e.getPlayer().getItemInHand().getItemMeta().getDisplayName() == null) return;
             if (!e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Kits")) return;
 
             for (Game g : Game.getGames()) {
                 for (Player p : g.getLobby().getPlayers()) {
                     if (p.getUniqueId().equals(e.getPlayer().getUniqueId())) {
                         p.openInventory(lobby.getGUI().getInv());
+                        return;
+                    }
+                }
+            }
+        }
+
+        if(e.getPlayer().getItemInHand().getType().equals(Material.NETHER_STAR)) {
+            if (e.getPlayer().getItemInHand().getItemMeta().getDisplayName() == null) return;
+            if (!e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Iniciar a partida")) return;
+
+            for (Game g : Game.getGames()) {
+                for (Player p : g.getLobby().getPlayers()) {
+                    if (p.getUniqueId().equals(e.getPlayer().getUniqueId())) {
+                        g.getLobby().stop();
                         return;
                     }
                 }
