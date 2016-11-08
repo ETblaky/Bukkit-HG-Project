@@ -72,6 +72,19 @@ public class Game {
         return players;
     }
 
+    public static Game playerGame(Player p){
+
+        for(Game g : Game.getGames()){
+            for(Player p1 : g.getPlayers()){
+                if (p1.getUniqueId().equals(p.getUniqueId())) {
+                    return g;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public void addPlayer(Player p){
         players.add(p);
     }
@@ -86,7 +99,11 @@ public class Game {
 
             kits.removeAbilities(p);
 
+            players.get(i).getInventory().clear();
+            me.etblaky.hg.Main.giveItems(players.get(i));
+
             p.teleport(Main.getSpawn());
+            p.setGameMode(GameMode.ADVENTURE);
         }
 
         for(int i = 0; i < spectators.size() - 1; i++){
@@ -95,6 +112,11 @@ public class Game {
             }
 
             spectators.get(i).setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+
+            kits.removeAbilities(p);
+
+            players.get(i).getInventory().clear();
+            me.etblaky.hg.Main.giveItems(players.get(i));
 
             p.teleport(Main.getSpawn());
             p.setGameMode(GameMode.ADVENTURE);
@@ -158,6 +180,7 @@ public class Game {
             kits.setAbilities(p);
 
             p.teleport(loc);
+            p.setGameMode(GameMode.SURVIVAL);
             p.setExp(0);
             p.setLevel(0);
             p.updateInventory();
@@ -176,7 +199,7 @@ public class Game {
 
         for(Player p : players) {
             p.getInventory().clear();
-            p.setGameMode(GameMode.CREATIVE);
+            p.setGameMode(GameMode.ADVENTURE);
             p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
             kits.removeAbilities(p);
             p.teleport(Main.getSpawn());

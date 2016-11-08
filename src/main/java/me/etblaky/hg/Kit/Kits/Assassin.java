@@ -42,7 +42,9 @@ public class Assassin extends KitBase {
 
     public void setAbilities(Player p){ }
 
-    public void removeAbilities(Player p){ }
+    public void removeAbilities(Player p){
+        p.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+    }
 
     HashMap<Player, Integer> pTimes = new HashMap<Player, Integer>();
     int scheduler;
@@ -57,6 +59,8 @@ public class Assassin extends KitBase {
             }
         }
 
+        if(k== null) return;
+        if(k.playersKits == null) return;
         if(k.playersKits.get(e.getPlayer()) == null) return;
         if(!k.playersKits.get(e.getPlayer()).equals(Kit.Kits.ASSASSIN)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
@@ -94,6 +98,8 @@ public class Assassin extends KitBase {
 
         //if(!(e.getEntity() instanceof Player)) return;
         if(!(e.getDamager() instanceof  Player)) return;
+        if(k== null) return;
+        if(k.playersKits == null) return;
         if(k.playersKits.get(e.getDamager()) == null) return;
         if(!k.playersKits.get(e.getDamager()).equals(Kit.Kits.ASSASSIN)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;

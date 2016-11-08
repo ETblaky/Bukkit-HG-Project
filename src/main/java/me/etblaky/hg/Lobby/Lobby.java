@@ -5,6 +5,7 @@ import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitGUI;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -39,7 +40,7 @@ public class Lobby {
     public ArrayList<Player> players = new ArrayList<Player>();
     public Location loc = new Location(Bukkit.getWorld("world"), 23 , 4, 23);
 
-    public ArrayList<ItemStack> items = new ArrayList<ItemStack>();
+    public static ArrayList<ItemStack> items = new ArrayList<ItemStack>();
 
     public Lobby(String n) {
         state = MatchState.RELOADING;
@@ -102,6 +103,19 @@ public class Lobby {
         return players;
     }
 
+    public static Lobby playerLobby(Player p){
+
+        for(Game g : Game.getGames()){
+            for(Player p1 : g.getLobby().getPlayers()){
+                if (p1.getUniqueId().equals(p.getUniqueId())) {
+                    return g.getLobby();
+                }
+            }
+        }
+
+        return null;
+    }
+
     public boolean addPlayer(Player p){
         if(players.contains(p)) {p.sendMessage("You already are in this match!"); return false;}
         if(!state.equals(MatchState.LOBBY)) {p.sendMessage("You cannot enter in this match!"); return false; }
@@ -110,6 +124,7 @@ public class Lobby {
         p.getInventory().clear();
 
         p.teleport(loc);
+        p.setGameMode(GameMode.ADVENTURE);
         players.add(p);
 
         kits.playersKits.put(p, Kit.Kits.BASIC);
@@ -140,10 +155,12 @@ public class Lobby {
                 players.get(i).setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
                 players.get(i).getInventory().clear();
                 players.remove(i);
+                me.etblaky.hg.Main.giveItems(players.get(i));
             }
         }
 
         p.teleport(Main.getSpawn());
+        p.setGameMode(GameMode.ADVENTURE);
     }
 
     public void broadcast(String s){

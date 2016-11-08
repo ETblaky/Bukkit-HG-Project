@@ -23,7 +23,8 @@ public class Kit {
         BEASTMASTER,
         BERSERKER,
         BLINK,
-        BOXER
+        BOXER,
+        CAMEL
     }
 
     public Lobby l;
@@ -43,7 +44,7 @@ public class Kit {
 
     public String getName(Player p){
         if(playersKits.get(p).equals(Kits.BASIC)){
-            return new Basic((this)).getName();
+            return new Basic(this).getName();
         }
         if(playersKits.get(p).equals(Kits.ACHILLES)){
             return new Achilles(this).getName();
@@ -71,6 +72,9 @@ public class Kit {
         }
         if(playersKits.get(p).equals(Kits.BOXER)){
             return new Boxer(this).getName();
+        }
+        if(playersKits.get(p).equals(Kits.CAMEL)){
+            return new Camel(this).getName();
         }
         return null;
     }
@@ -106,6 +110,9 @@ public class Kit {
         if(playersKits.get(p).equals(Kits.BOXER)){
             return new Boxer(this).getItems();
         }
+        if(playersKits.get(p).equals(Kits.CAMEL)){
+            return new Camel(this).getItems();
+        }
         return null;
     }
 
@@ -140,6 +147,9 @@ public class Kit {
         if(playersKits.get(p).equals(Kits.BOXER)){
             new Boxer(this).setAbilities(p);
         }
+        if(playersKits.get(p).equals(Kits.CAMEL)){
+            new Camel(this).setAbilities(p);
+        }
     }
 
     public void removeAbilities(Player p){
@@ -172,6 +182,9 @@ public class Kit {
         }
         if(playersKits.get(p).equals(Kits.BOXER)){
             new Boxer(this).removeAbilities(p);
+        }
+        if(playersKits.get(p).equals(Kits.CAMEL)){
+            new Camel(this).removeAbilities(p);
         }
     }
 

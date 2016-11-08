@@ -30,10 +30,14 @@ public class Berserker extends KitBase {
 
     public void setAbilities(Player p){ }
 
-    public void removeAbilities(Player p){ }
+    public void removeAbilities(Player p){
+        p.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+    }
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent e){
+        if(e.getEntity().getKiller() == null) return;
+
         for(Game g : Game.getGames()){
             for(Player p : g.getLobby().getPlayers()){
                 if(p.getUniqueId().equals(e.getEntity().getKiller().getUniqueId())){
@@ -42,7 +46,8 @@ public class Berserker extends KitBase {
             }
         }
 
-        if(e.getEntity().getKiller() == null) return;
+        if(k== null) return;
+        if(k.playersKits == null) return;
         if(k.playersKits.get(e.getEntity().getKiller()) == null) return;
         if(!k.playersKits.get(e.getEntity().getKiller()).equals(Kit.Kits.BERSERKER)) return;
 

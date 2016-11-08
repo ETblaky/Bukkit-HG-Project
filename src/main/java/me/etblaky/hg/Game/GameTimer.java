@@ -56,6 +56,10 @@ public class GameTimer {
                             break;
                     }
 
+                    if(time == 30){
+                        p.sendMessage("O PvP está liberado!");
+                    }
+
                 }
 
                 if(time == 600){
