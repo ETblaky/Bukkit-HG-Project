@@ -120,6 +120,8 @@ public class Main extends JavaPlugin implements Listener{
         Bukkit.getServer().getPluginManager().registerEvents(new Blink(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Boxer(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Camel(), this);
+        
+        Bukkit.getServer().getPluginManager().registerEvents(new Kangaroo(), this);
     }
 
     public static void giveItems(Player p){
@@ -166,7 +168,7 @@ public class Main extends JavaPlugin implements Listener{
 
                 for(Game g : Game.getGames()){
                     if(g.getName().equalsIgnoreCase(args[1])){
-                        g.getLobby().addPlayer((Player) sender);
+                        g.getLobby().addPlayer((Player) sender, false);
                         return true;
                     }
                 }
@@ -253,7 +255,7 @@ public class Main extends JavaPlugin implements Listener{
             //TODO: Vips can choose the match.
 
             for(Game g : Game.getGames()){
-                if(g.getLobby().addPlayer(e.getPlayer())){
+                if(g.getLobby().addPlayer(e.getPlayer(), true)){
                     return;
                 }
             }

@@ -3,7 +3,9 @@ package me.etblaky.hg.Game;
 import me.etblaky.Main;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Lobby.Lobby;
+import me.etblaky.titles.TitleApi;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
@@ -31,7 +33,7 @@ public class Game {
     public ArrayList<Player> players = new ArrayList<Player>();
     public ArrayList<Player> spectators = new ArrayList<Player>();
 
-    public Location loc = new Location(Bukkit.getWorld("world"), -6 , 4, 23);
+    public Location loc; //= new Location(Bukkit.getWorld("world"), -6 , 4, 23);
 
     public static ArrayList<Game> games = new ArrayList<Game>();
 
@@ -76,6 +78,14 @@ public class Game {
 
         for(Game g : Game.getGames()){
             for(Player p1 : g.getPlayers()){
+                if (p1.getUniqueId().equals(p.getUniqueId())) {
+                    return g;
+                }
+            }
+        }
+
+        for(Game g : Game.getGames()){
+            for(Player p1 : g.spectators){
                 if (p1.getUniqueId().equals(p.getUniqueId())) {
                     return g;
                 }
@@ -185,9 +195,9 @@ public class Game {
             p.setLevel(0);
             p.updateInventory();
 
-        }
+            TitleApi.sendTitle(p, ChatColor.GREEN + "Começou!", 1, 1, 1);
 
-        //TODO: Custom spawn location
+        }
 
         getTimer().start();
     }
@@ -203,6 +213,7 @@ public class Game {
             p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
             kits.removeAbilities(p);
             p.teleport(Main.getSpawn());
+            me.etblaky.hg.Main.verifyStatus(p);
         }
 
         kits.playersKits.clear();

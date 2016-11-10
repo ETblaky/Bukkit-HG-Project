@@ -1,7 +1,10 @@
 package me.etblaky.hg.Game;
 
 import me.etblaky.hg.Main;
+import me.etblaky.titles.TitleApi;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 /**
@@ -33,31 +36,38 @@ public class GameTimer {
                     game.getBoard().setUpPlayer(p);
 
                     switch (time){
-                        case (600 - 14):
-                            p.sendMessage("Faltam 15 segundos!");
+                        case (600 - 15):
+                            TitleApi.sendTitle(p, ChatColor.GREEN + "15 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
-                        case (600 - 9):
-                            p.sendMessage("Faltam 10 segundos!");
+                        case (600 - 10):
+                            TitleApi.sendTitle(p, ChatColor.GREEN + "10 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+                            break;
+                        case (600 - 5):
+                            TitleApi.sendTitle(p, ChatColor.GREEN + "5 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
                         case (600 - 4):
-                            p.sendMessage("Faltam 5 segundos!");
+                            TitleApi.sendTitle(p, ChatColor.DARK_GREEN + "4 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
                         case (600 - 3):
-                            p.sendMessage("Faltam 4 segundos!");
+                            TitleApi.sendTitle(p, ChatColor.YELLOW + "3 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
                         case (600 - 2):
-                            p.sendMessage("Faltam 3 segundos!");
+                            TitleApi.sendTitle(p, ChatColor.RED + "2 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
                         case (600 - 1):
-                            p.sendMessage("Faltam 2 segundos!");
-                            break;
-                        case (600 - 0):
-                            p.sendMessage("Falta 1 segundo!");
+                            TitleApi.sendTitle(p, ChatColor.DARK_RED + "1 segundo", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
                     }
 
                     if(time == 30){
-                        p.sendMessage("O PvP está liberado!");
+                        TitleApi.sendTitle(p, "O PvP está liberado!", 1, 1, 1);
                     }
 
                 }

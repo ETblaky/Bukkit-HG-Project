@@ -1,7 +1,10 @@
 package me.etblaky.hg.Lobby;
 
 import me.etblaky.hg.Main;
+import me.etblaky.titles.TitleApi;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 /**
@@ -32,41 +35,49 @@ public class LobbyTimer {
                 for(Player p : lobby.getPlayers()){
 
                     switch (time){
-                        case (120 - 14):
-                            p.sendMessage("Faltam 15 segundos!");
+                        case (120 - 15):
+                            TitleApi.sendTitle(p, ChatColor.GREEN + "15 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
-                        case (120 - 9):
-                            p.sendMessage("Faltam 10 segundos!");
+                        case (120 - 10):
+                            TitleApi.sendTitle(p, ChatColor.GREEN + "10 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+                            break;
+                        case (120 - 5):
+                            TitleApi.sendTitle(p, ChatColor.GREEN + "5 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
                         case (120 - 4):
-                            p.sendMessage("Faltam 5 segundos!");
+                            TitleApi.sendTitle(p, ChatColor.DARK_GREEN + "4 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
                         case (120 - 3):
-                            p.sendMessage("Faltam 4 segundos!");
+                            TitleApi.sendTitle(p, ChatColor.YELLOW + "3 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
                         case (120 - 2):
-                            p.sendMessage("Faltam 3 segundos!");
+                            TitleApi.sendTitle(p, ChatColor.RED + "2 segundos", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
                         case (120 - 1):
-                            p.sendMessage("Faltam 2 segundos!");
-                            break;
-                        case (120 - 0):
-                            p.sendMessage("Falta 1 segundo!");
+                            TitleApi.sendTitle(p, ChatColor.DARK_RED + "1 segundo", 1, 1, 0);
+                            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                             break;
                     }
 
                     lobby.getBoard().setUpPlayer(p);
 
-                }
+                    if(time == 120){
+                        if(lobby.getPlayers().size() > 0){
+                            lobby.stop();
+                            return;
+                        }
 
-                if(time == 120){
-                    if(lobby.getPlayers().size() > 0){
-                        lobby.stop();
-                        return;
+                        TitleApi.sendTitle(p, "Não tem jogadores suficientes para iniciar a partida!", 1, 2, 1 );
+
+                        time = 0;
+
                     }
-
-                    lobby.broadcast("Não tem jogadores suficientes para iniciar a partida!");
-                    time = 0;
 
                 }
 

@@ -116,10 +116,10 @@ public class Lobby {
         return null;
     }
 
-    public boolean addPlayer(Player p){
+    public boolean addPlayer(Player p, boolean isCompass){
         if(players.contains(p)) {p.sendMessage("You already are in this match!"); return false;}
-        if(!state.equals(MatchState.LOBBY)) {p.sendMessage("You cannot enter in this match!"); return false; }
-        if(players.size() == 60) {p.sendMessage("This match is full!"); return false; }
+        if(!state.equals(MatchState.LOBBY) && !isCompass) {p.sendMessage("You cannot enter in this match!"); return false; }
+        if(players.size() == 60 && !isCompass) {p.sendMessage("This match is full!"); return false; }
 
         p.getInventory().clear();
 
@@ -161,12 +161,6 @@ public class Lobby {
 
         p.teleport(Main.getSpawn());
         p.setGameMode(GameMode.ADVENTURE);
-    }
-
-    public void broadcast(String s){
-        for(Player p : players){
-            p.sendMessage(s);
-        }
     }
 
     public void start(){

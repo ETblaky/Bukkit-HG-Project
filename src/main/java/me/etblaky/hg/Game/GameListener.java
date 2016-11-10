@@ -22,7 +22,7 @@ public class GameListener implements Listener {
 
         for(Game g : Game.getGames()){
             if(g.getPlayers() != null)
-            for(Player p : g.getPlayers()){
+            for(final Player p : g.getPlayers()){
                 if(p.getUniqueId().equals(player.getUniqueId())){
                     g.setSpectator(p);
 

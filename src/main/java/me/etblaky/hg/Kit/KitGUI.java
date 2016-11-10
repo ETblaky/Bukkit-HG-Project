@@ -38,7 +38,9 @@ public class KitGUI implements Listener{
         inv.setItem(7, getItem(Material.WOOD_AXE, "Berserker", "Ganhe força ao matar um animal ou player."));
         inv.setItem(8, getItem(Material.NETHER_STAR, "Blink", "Se teleporte para onde estiver olhando", "quando estiver segurado uma estrela do nether!"));
         inv.setItem(8, getItem(Material.STONE_SWORD, "Boxer", "De dano de uma espada de pedra com a mão", "e leve menos dano."));
-        inv.setItem(9, getItem(Material.SAND, "Camel", "Ande mais rápido no areia e", "crafte sopa com cacto e areia"));
+        inv.setItem(9, getItem(Material.SAND, "Camel", "Ande mais rápido no areia e", "Crafte sopa com cacto e areia"));
+
+        inv.setItem(10, getItem(Material.FIREWORK, "Kangaroo", "Ganhe um impulso ", "quando usar o firework", " e não tome dano de queda!"));
     }
 
     @EventHandler
@@ -58,6 +60,8 @@ public class KitGUI implements Listener{
         }
 
         if (inventory.getName().equals(inv.getName())) {
+
+            //TODO: Verify if the player is VIP
 
             if (clicked.getType() == Material.WOOD_SWORD) {
                 e.setCancelled(true);
@@ -115,6 +119,11 @@ public class KitGUI implements Listener{
                 e.setCancelled(true);
                 player.closeInventory();
                 kit.playersKits.put(player, Kit.Kits.CAMEL);
+            }
+            if (clicked.getType() == Material.FIREWORK) {
+                e.setCancelled(true);
+                player.closeInventory();
+                kit.playersKits.put(player, Kit.Kits.KANGAROO);
             }
         }
     }

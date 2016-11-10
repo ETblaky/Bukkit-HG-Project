@@ -24,7 +24,8 @@ public class Kit {
         BERSERKER,
         BLINK,
         BOXER,
-        CAMEL
+        CAMEL,
+        KANGAROO
     }
 
     public Lobby l;
@@ -76,6 +77,9 @@ public class Kit {
         if(playersKits.get(p).equals(Kits.CAMEL)){
             return new Camel(this).getName();
         }
+        if(playersKits.get(p).equals(Kits.KANGAROO)){
+            return new Kangaroo(this).getName();
+        }
         return null;
     }
 
@@ -112,6 +116,9 @@ public class Kit {
         }
         if(playersKits.get(p).equals(Kits.CAMEL)){
             return new Camel(this).getItems();
+        }
+        if(playersKits.get(p).equals(Kits.KANGAROO)){
+            return new Kangaroo(this).getItems();
         }
         return null;
     }
@@ -150,6 +157,9 @@ public class Kit {
         if(playersKits.get(p).equals(Kits.CAMEL)){
             new Camel(this).setAbilities(p);
         }
+        if(playersKits.get(p).equals(Kits.KANGAROO)){
+            new Kangaroo(this).setAbilities(p);
+        }
     }
 
     public void removeAbilities(Player p){
@@ -185,6 +195,9 @@ public class Kit {
         }
         if(playersKits.get(p).equals(Kits.CAMEL)){
             new Camel(this).removeAbilities(p);
+        }
+        if(playersKits.get(p).equals(Kits.KANGAROO)){
+            new Kangaroo(this).removeAbilities(p);
         }
     }
 

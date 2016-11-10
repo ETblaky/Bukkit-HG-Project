@@ -8,13 +8,6 @@
     <artifactId>hg</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <repositories>
-        <repository>
-            <id>ETblaky</id>
-            <url>https://github.com/HG-Project/Spawn/raw/master</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -27,7 +20,14 @@
             <artifactId>Spawn</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${basedir}/Spawn.jar</systemPath>
+            <systemPath>${basedir}/Files/Spawn.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>me.etblaky.HG-Project</groupId>
+            <artifactId>ETapiTitles</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/Files/ETapiTitles-Api.jar</systemPath>
         </dependency>
     </dependencies>
 
