@@ -72,6 +72,10 @@ public class GameTimer {
 
                 }
 
+                for(Player p : game.spectators) {
+                    game.getBoard().setUpPlayer(p);
+                }
+
                 if(time == 600){
                     game.stop();
                 }

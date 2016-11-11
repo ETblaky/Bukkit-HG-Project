@@ -6,6 +6,7 @@ import me.etblaky.hg.Kit.KitGUI;
 import me.etblaky.hg.Kit.Kits.*;
 import me.etblaky.hg.Lobby.Lobby;
 import me.etblaky.hg.Lobby.LobbyListener;
+import me.etblaky.vip.VipSys;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -105,6 +106,7 @@ public class Main extends JavaPlugin implements Listener{
         Bukkit.getServer().getPluginManager().registerEvents(new GameListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new LobbyListener(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new KitGUI(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new MatchesGUI(), this);
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
     }
 
@@ -252,7 +254,10 @@ public class Main extends JavaPlugin implements Listener{
         if(e.getPlayer().getItemInHand().getType().equals(Material.COMPASS)) {
             if (!e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Entrar numa partida")) return;
 
-            //TODO: Vips can choose the match.
+            if(VipSys.isVip(e.getPlayer())){
+                e.getPlayer().openInventory(MatchesGUI.getInv());
+                return;
+            }
 
             for(Game g : Game.getGames()){
                 if(g.getLobby().addPlayer(e.getPlayer(), true)){

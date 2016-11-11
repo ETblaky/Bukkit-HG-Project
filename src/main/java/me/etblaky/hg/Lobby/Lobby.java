@@ -154,8 +154,8 @@ public class Lobby {
             if(players.get(i).getUniqueId().equals(p.getUniqueId())){
                 players.get(i).setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
                 players.get(i).getInventory().clear();
-                players.remove(i);
                 me.etblaky.hg.Main.giveItems(players.get(i));
+                players.remove(i);
             }
         }
 
