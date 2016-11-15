@@ -6,8 +6,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -113,13 +118,48 @@ public class LobbyListener implements Listener{
             }
         }
     }
-/*
+
     @EventHandler
     public void onPlayerDamage(final EntityDamageByEntityEvent e){
         if(!(e.getEntity() instanceof  Player)) return;
         if(Lobby.playerLobby((Player) e.getEntity()) == null) return;
 
         e.setCancelled(true);
-    }*/
+    }
+
+    @EventHandler
+    public void onPlaceBlock(BlockPlaceEvent e){
+        if(Lobby.playerLobby(e.getPlayer()) == null) return;
+
+        e.setCancelled(true);
+
+        e.getPlayer().updateInventory();
+    }
+
+    @EventHandler
+    public void onBreakBlock(BlockBreakEvent e){
+        if(Lobby.playerLobby(e.getPlayer()) == null) return;
+
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPickUpItem(PlayerPickupItemEvent e){
+        if(Lobby.playerLobby(e.getPlayer()) == null) return;
+
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onDropItem(PlayerDropItemEvent e){
+        if(Lobby.playerLobby(e.getPlayer()) == null) return;
+
+        Player p = e.getPlayer();
+        ItemStack item = e.getItemDrop().getItemStack().clone();
+        e.getItemDrop().remove();
+        p.getInventory().setItem(p.getInventory().getHeldItemSlot(), item);
+
+        p.updateInventory();
+    }
 
 }

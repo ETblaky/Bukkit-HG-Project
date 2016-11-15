@@ -155,6 +155,7 @@ public class Lobby {
                 players.get(i).setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
                 players.get(i).getInventory().clear();
                 me.etblaky.hg.Main.giveItems(players.get(i));
+                players.get(i).updateInventory();
                 players.remove(i);
             }
         }

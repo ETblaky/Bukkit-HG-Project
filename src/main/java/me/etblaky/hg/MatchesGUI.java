@@ -24,7 +24,7 @@ public class MatchesGUI implements Listener{
     public static void setUp(){
         for(Game g : Game.getGames()){
 
-            for(ItemStack i : inv.getStorageContents()){
+            for(ItemStack i : inv.getContents()){
                 if(i != null){
                     if(i.getItemMeta().getDisplayName().equals(g.getName())) return;
                 }
@@ -61,6 +61,7 @@ public class MatchesGUI implements Listener{
 
         for(Game g : Game.getGames()){
             if(clicked == null) return;
+            if(clicked.getItemMeta() == null) return;
             if(clicked.getItemMeta().getDisplayName() == null) return;
             if(g.getName().equalsIgnoreCase(clicked.getItemMeta().getDisplayName())){
                 if(g.getLobby().state == Lobby.MatchState.GAME){

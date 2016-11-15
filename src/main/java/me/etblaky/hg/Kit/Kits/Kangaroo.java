@@ -7,11 +7,13 @@ import me.etblaky.hg.Lobby.Lobby;
 import me.etblaky.hg.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 
@@ -36,8 +38,6 @@ public class Kangaroo extends KitBase {
     public void setAbilities(Player p){ }
 
     public void removeAbilities(Player p){ }
-
-    HashMap<Player, Boolean> disableFall = new HashMap<Player, Boolean>();
 
     HashMap<Player, Double> cooldown = new HashMap<Player, Double>();
     HashMap<Player, Integer> task = new HashMap<Player, Integer>();
@@ -64,8 +64,14 @@ public class Kangaroo extends KitBase {
         if(cooldown.get(e.getPlayer()) == null) { cooldown.put(e.getPlayer(), 0.0); }
         if(cooldown.get(e.getPlayer()) > 0) { return; }
 
-        e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(1.5));
-        disableFall.put(e.getPlayer(), true);
+        if(e.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR) return;
+
+        if(e.getPlayer().isSneaking()){
+            e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(3));
+        }
+        else {
+            e.getPlayer().setVelocity(new Vector(0, 1, 0));
+        }
 
         final PlayerInteractEvent ev = e;
         cooldown.put(ev.getPlayer(), 1.0);
@@ -85,7 +91,7 @@ public class Kangaroo extends KitBase {
     }
 
     @EventHandler
-    public void onPlayerFall(EntityDamageEvent e){
+    public void onPlayerDamage(EntityDamageEvent e){
         for(Game g : Game.getGames()){
             for(Player p : g.getLobby().getPlayers()){
                 if(p.getUniqueId().equals((e.getEntity()).getUniqueId())){
@@ -100,14 +106,10 @@ public class Kangaroo extends KitBase {
         if(k.playersKits.get(e.getEntity()) == null) return;
         if(!k.playersKits.get(e.getEntity()).equals(Kit.Kits.KANGAROO)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
-        if(!e.getCause().equals(EntityDamageEvent.DamageCause.FALL)) return;
+        if(e.getCause() != EntityDamageEvent.DamageCause.FALL) return;
 
-        if(disableFall.get((Player) e.getEntity()) == null) return;
-        if(!disableFall.get((Player) e.getEntity())) return;
+        if(e.getFinalDamage() > 8) e.setDamage(8);
 
-        e.setCancelled(true);
-
-        disableFall.put((Player) e.getEntity(), false);
     }
 
 }

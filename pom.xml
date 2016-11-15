@@ -9,12 +9,11 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.10.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.spigotmc</groupId>-->
+            <!--<artifactId>spigot-api</artifactId>-->
+            <!--<version>1.10.2-R0.1-SNAPSHOT</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>me.etblaky.HG-Project</groupId>
             <artifactId>Spawn</artifactId>

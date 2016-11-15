@@ -5,15 +5,15 @@ import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
 import me.etblaky.hg.Main;
-import net.minecraft.server.v1_10_R1.EntityArmorStand;
-import net.minecraft.server.v1_10_R1.PacketPlayOutSpawnEntityLiving;
-import net.minecraft.server.v1_10_R1.WorldServer;
+import net.minecraft.server.v1_8_R1.EntityArmorStand;
+import net.minecraft.server.v1_8_R1.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_8_R1.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -93,11 +93,9 @@ public class Endermage extends KitBase {
         EntityArmorStand stand = new EntityArmorStand(s);
 
         stand.setLocation(loc.getX(), loc.getY(), loc.getZ(), 0, 0);
-        stand.setNoGravity(false);
+        stand.setGravity(true);
         stand.setInvisible(true);
         stand.setSmall(true);
-        stand.setSilent(true);
-        stand.setInvulnerable(true);
 
         PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving(stand);
         ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);

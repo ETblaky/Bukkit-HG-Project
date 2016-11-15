@@ -54,10 +54,10 @@ public class Stomper extends KitBase {
             if(!(en instanceof Player)) return;
             if(en.equals(e.getEntity())) return;
 
-            ((Player) en).damage(e.getDamage());
+            ((Player) en).damage(e.getFinalDamage());
         }
 
-        e.setDamage(e.getDamage() * 0.05);
+        e.setDamage(e.getFinalDamage() * 0.05);
 
     }
 }

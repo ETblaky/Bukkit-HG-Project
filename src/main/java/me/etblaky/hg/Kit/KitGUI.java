@@ -80,7 +80,7 @@ public class KitGUI implements Listener{
                 player.closeInventory();
 
                 //VIP
-                if(!VipSys.isVip((Player) e.getWhoClicked())){ e.getWhoClicked().sendMessage(ChatColor.RED + "Esse kit é apenas para VIPs! Adquira o seu em: kangarooKits.com.br/vip"); return; }
+                if(!VipSys.isVip((Player) e.getWhoClicked())){ ((Player) e.getWhoClicked()).sendMessage(ChatColor.RED + "Esse kit é apenas para VIPs! Adquira o seu em: kangarooKits.com.br/vip"); return; }
 
                 kit.playersKits.put(player, Kit.Kits.ACHILLES);
 
@@ -90,7 +90,7 @@ public class KitGUI implements Listener{
                 player.closeInventory();
 
                 //VIP
-                if(!VipSys.isVip((Player) e.getWhoClicked())){ e.getWhoClicked().sendMessage(ChatColor.RED + "Esse kit é apenas para VIPs! Adquira o seu em: kangarooKits.com.br/vip");  return; }
+                if(!VipSys.isVip((Player) e.getWhoClicked())){ ((Player) e.getWhoClicked()).sendMessage(ChatColor.RED + "Esse kit é apenas para VIPs! Adquira o seu em: kangarooKits.com.br/vip");  return; }
 
                 kit.playersKits.put(player, Kit.Kits.ANCHOR);
             }

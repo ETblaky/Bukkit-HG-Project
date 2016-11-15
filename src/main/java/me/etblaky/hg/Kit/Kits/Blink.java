@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Created by ETblaky on 05/11/2016.
@@ -59,7 +59,7 @@ public class Blink extends KitBase {
         if(cooldown.get(e.getPlayer()) == null) { cooldown.put(e.getPlayer(), 0); }
         if(cooldown.get(e.getPlayer()) > 0) { e.getPlayer().sendMessage("Espere mais " + cooldown.get(e.getPlayer()) + " segundos!"); return; }
 
-        Location loc = e.getPlayer().getTargetBlock((Set) null, 100).getLocation().add(0, 1, 0).setDirection(e.getPlayer().getLocation().getDirection());
+        Location loc = e.getPlayer().getTargetBlock((HashSet<Byte>) null, 100).getLocation().add(0, 1, 0).setDirection(e.getPlayer().getLocation().getDirection());
         e.getPlayer().teleport(loc);
 
         final PlayerInteractEvent ev = e;

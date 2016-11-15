@@ -20,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -273,6 +274,19 @@ public class Main extends JavaPlugin implements Listener{
             e.getPlayer().sendMessage("Não há nenhuma partida disponível!");
 
         }
+    }
+
+    @EventHandler
+    public void onDropItem(PlayerDropItemEvent e){
+        if(Lobby.playerLobby(e.getPlayer()) != null) return;
+        if(Game.playerGame(e.getPlayer()) != null) return;
+
+        Player p = e.getPlayer();
+        ItemStack item = e.getItemDrop().getItemStack().clone();
+        e.getItemDrop().remove();
+        p.getInventory().setItem(p.getInventory().getHeldItemSlot(), item);
+
+        p.updateInventory();
     }
 
 }

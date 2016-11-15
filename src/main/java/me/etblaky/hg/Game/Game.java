@@ -9,6 +9,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +116,8 @@ public class Game {
 
             p.teleport(Main.getSpawn());
             p.setGameMode(GameMode.ADVENTURE);
+
+            p.updateInventory();
         }
 
         if(players.size() == 1) stop(players.get(0));
@@ -142,7 +146,8 @@ public class Game {
     public void setSpectator(Player p){
         System.out.println("Setting spectator: " + p.getName());
 
-        p.setGameMode(GameMode.SPECTATOR);
+        p.setGameMode(GameMode.CREATIVE);
+        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 10));
         spectators.add(p);
 
         p.teleport(loc);
@@ -228,22 +233,37 @@ public class Game {
 
                 for(Player p : players) {
                     p.getInventory().clear();
+
                     p.setGameMode(GameMode.ADVENTURE);
+
                     p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+
                     kits.removeAbilities(p);
+
                     p.teleport(Main.getSpawn());
+
                     me.etblaky.hg.Main.verifyStatus(p);
                     me.etblaky.hg.Main.giveItems(p);
+
+                    p.updateInventory();
                 }
 
                 for(Player p : spectators) {
                     p.getInventory().clear();
+
                     p.setGameMode(GameMode.ADVENTURE);
+                    p.removePotionEffect(PotionEffectType.INVISIBILITY);
+
                     p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+
                     kits.removeAbilities(p);
+
                     p.teleport(Main.getSpawn());
+
                     me.etblaky.hg.Main.verifyStatus(p);
                     me.etblaky.hg.Main.giveItems(p);
+
+                    p.updateInventory();
                 }
 
                 kits.playersKits.clear();
