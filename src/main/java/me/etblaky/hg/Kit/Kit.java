@@ -25,7 +25,9 @@ public class Kit {
         BLINK,
         BOXER,
         CAMEL,
-        KANGAROO
+        KANGAROO,
+        ENDERMAGE,
+        STOMPER
     }
 
     public Lobby l;
@@ -80,6 +82,12 @@ public class Kit {
         if(playersKits.get(p).equals(Kits.KANGAROO)){
             return new Kangaroo(this).getName();
         }
+        if(playersKits.get(p).equals(Kits.ENDERMAGE)){
+            return new Endermage(this).getName();
+        }
+        if(playersKits.get(p).equals(Kits.STOMPER)){
+            return new Stomper(this).getName();
+        }
         return null;
     }
 
@@ -119,6 +127,12 @@ public class Kit {
         }
         if(playersKits.get(p).equals(Kits.KANGAROO)){
             return new Kangaroo(this).getItems();
+        }
+        if(playersKits.get(p).equals(Kits.ENDERMAGE)){
+            return new Endermage(this).getItems();
+        }
+        if(playersKits.get(p).equals(Kits.STOMPER)){
+            return new Stomper(this).getItems();
         }
         return null;
     }
@@ -160,6 +174,12 @@ public class Kit {
         if(playersKits.get(p).equals(Kits.KANGAROO)){
             new Kangaroo(this).setAbilities(p);
         }
+        if(playersKits.get(p).equals(Kits.ENDERMAGE)){
+            new Endermage(this).setAbilities(p);
+        }
+        if(playersKits.get(p).equals(Kits.STOMPER)){
+            new Stomper(this).setAbilities(p);
+        }
     }
 
     public void removeAbilities(Player p){
@@ -198,6 +218,12 @@ public class Kit {
         }
         if(playersKits.get(p).equals(Kits.KANGAROO)){
             new Kangaroo(this).removeAbilities(p);
+        }
+        if(playersKits.get(p).equals(Kits.ENDERMAGE)){
+            new Endermage(this).removeAbilities(p);
+        }
+        if(playersKits.get(p).equals(Kits.STOMPER)){
+            new Stomper(this).removeAbilities(p);
         }
     }
 
