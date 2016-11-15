@@ -66,8 +66,8 @@ public class GameTimer {
                             break;
                     }
 
-                    if(time == 30){
-                        TitleApi.sendTitle(p, "O PvP está liberado!", 1, 1, 1);
+                    if(time == 60){
+                        TitleApi.sendTitle(p, ChatColor.RED + "O PvP está liberado!", 1, 1, 1);
                     }
 
                 }
@@ -77,7 +77,7 @@ public class GameTimer {
                 }
 
                 if(time == 600){
-                    game.stop();
+                    game.stop(null);
                 }
 
             }

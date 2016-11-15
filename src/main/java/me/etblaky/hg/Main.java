@@ -122,7 +122,9 @@ public class Main extends JavaPlugin implements Listener{
         Bukkit.getServer().getPluginManager().registerEvents(new Blink(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Boxer(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Camel(), this);
-        
+
+        Bukkit.getServer().getPluginManager().registerEvents(new Endermage(), this);
+
         Bukkit.getServer().getPluginManager().registerEvents(new Kangaroo(), this);
     }
 
@@ -252,6 +254,7 @@ public class Main extends JavaPlugin implements Listener{
     public void clickItem(PlayerInteractEvent e){
 
         if(e.getPlayer().getItemInHand().getType().equals(Material.COMPASS)) {
+            if (e.getPlayer().getItemInHand().getItemMeta().getDisplayName() == null) return;
             if (!e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Entrar numa partida")) return;
 
             if(VipSys.isVip(e.getPlayer())){

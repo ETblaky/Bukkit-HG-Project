@@ -4,10 +4,7 @@ import me.etblaky.Main;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Lobby.Lobby;
 import me.etblaky.titles.TitleApi;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -100,6 +97,11 @@ public class Game {
     }
 
     public void removePlayer(Player p){
+
+        if(players.size() == 1){
+            stop(players.get(0));
+        }
+
         for(int i = 0; i < players.size() - 1; i++){
             if(players.get(i).getUniqueId().equals(p.getUniqueId())){
                 players.remove(i);
@@ -137,12 +139,6 @@ public class Game {
         p.setGameMode(GameMode.SPECTATOR);
         spectators.add(p);
 
-        for(int i = 0; i < players.size()  - 1; i ++){
-            if(players.get(i).getUniqueId().equals(p.getUniqueId())){
-                players.remove(i);
-            }
-        }
-
         p.teleport(loc);
     }
 
@@ -154,7 +150,11 @@ public class Game {
         this.kits = k;
 
         for(Player p : players) {
+
             p.getInventory().clear();
+
+            p.getInventory().addItem(new ItemStack(Material.COMPASS));
+
             for (ItemStack is : kits.getItems(p)) {
 
                 if(is.getMaxStackSize() > 1){
@@ -202,23 +202,36 @@ public class Game {
         getTimer().start();
     }
 
-    public void stop(){
+    public void stop(Player p1){
+
         lobby.state = Lobby.MatchState.RELOADING;
 
-        getTimer().stop();
+        if(p1 != null){
+            //TODO: Telepot p1 to cake area
 
-        for(Player p : players) {
-            p.getInventory().clear();
-            p.setGameMode(GameMode.ADVENTURE);
-            p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
-            kits.removeAbilities(p);
-            p.teleport(Main.getSpawn());
-            me.etblaky.hg.Main.verifyStatus(p);
+            for(Player p : spectators) {
+                //TODO: Telepot spectators to cake area
+            }
         }
 
-        kits.playersKits.clear();
-        lobby.reset();
-        reset();
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(me.etblaky.hg.Main.getInstance(), new Runnable() {
+            public void run() {
+                getTimer().stop();
+
+                for(Player p : players) {
+                    p.getInventory().clear();
+                    p.setGameMode(GameMode.ADVENTURE);
+                    p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                    kits.removeAbilities(p);
+                    p.teleport(Main.getSpawn());
+                    me.etblaky.hg.Main.verifyStatus(p);
+                }
+
+                kits.playersKits.clear();
+                lobby.reset();
+                reset();
+            }
+        }, 30 * 20);
 
     }
 

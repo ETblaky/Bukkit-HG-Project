@@ -23,6 +23,13 @@ public class MatchesGUI implements Listener{
 
     public static void setUp(){
         for(Game g : Game.getGames()){
+
+            for(ItemStack i : inv.getStorageContents()){
+                if(i != null){
+                    if(i.getItemMeta().getDisplayName().equals(g.getName())) return;
+                }
+            }
+
             ItemStack is = new ItemStack(Material.GOLD_BLOCK);
             ItemMeta im = is.getItemMeta();
 
