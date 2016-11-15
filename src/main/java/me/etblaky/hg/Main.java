@@ -126,6 +126,8 @@ public class Main extends JavaPlugin implements Listener{
         Bukkit.getServer().getPluginManager().registerEvents(new Endermage(), this);
 
         Bukkit.getServer().getPluginManager().registerEvents(new Kangaroo(), this);
+
+        Bukkit.getServer().getPluginManager().registerEvents(new Stomper(), this);
     }
 
     public static void giveItems(Player p){

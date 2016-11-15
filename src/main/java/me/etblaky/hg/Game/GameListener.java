@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -20,30 +21,21 @@ public class GameListener implements Listener {
     @EventHandler
     public void onPlayerDie(final PlayerDeathEvent e){
 
-        if(Game.playerGame(e.getEntity()) == null) return;
+        System.out.println("player died: " + e.getEntity().getName());
 
-        final Player player = e.getEntity();
+        final Game g = Game.playerGame(e.getEntity());
 
-        for(Game g : Game.getGames()){
-            if(g.getPlayers() != null)
-            for(final Player p : g.getPlayers()){
-                if(p.getUniqueId().equals(player.getUniqueId())){
-                    g.removePlayer(p);
-                    g.setSpectator(p);
+        if(g == null) return;
 
-                    if(g.getPlayers().size() < 1){
-                        g.stop(null);
-                    }
+        g.removePlayer(e.getEntity());
+        g.setSpectator(e.getEntity());
 
-                }
-            }
-        }
     }
 
     @EventHandler
     public void onPlayerLeave(final PlayerQuitEvent e){
-        for(Game g : Game.getGames()){
-            for(Player p : g.getPlayers()){
+        for(final Game g : Game.getGames()){
+            for(final Player p : g.getPlayers()){
                 if(p.getUniqueId().equals(e.getPlayer().getUniqueId())){
                     g.removePlayer(p);
                 }
@@ -58,6 +50,15 @@ public class GameListener implements Listener {
         if(!(Game.playerGame((Player) e.getEntity()).getTimer().getTime() < 60)) return;
 
         e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerUseSoup(final FoodLevelChangeEvent e){
+        if(Game.playerGame((Player) e.getEntity()) == null) return;
+        if(!e.getEntity().getItemInHand().getType().equals(Material.MUSHROOM_SOUP)) return;
+
+        e.setCancelled(true);
+
     }
 
     @EventHandler

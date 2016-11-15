@@ -12,7 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 
@@ -40,7 +39,7 @@ public class Kangaroo extends KitBase {
 
     HashMap<Player, Boolean> disableFall = new HashMap<Player, Boolean>();
 
-    HashMap<Player, Integer> cooldown = new HashMap<Player, Integer>();
+    HashMap<Player, Double> cooldown = new HashMap<Player, Double>();
     HashMap<Player, Integer> task = new HashMap<Player, Integer>();
 
     @EventHandler
@@ -62,14 +61,14 @@ public class Kangaroo extends KitBase {
 
         e.setCancelled(true);
 
-        if(cooldown.get(e.getPlayer()) == null) { cooldown.put(e.getPlayer(), 0); }
-        if(cooldown.get(e.getPlayer()) > 0) { e.getPlayer().sendMessage("Espere mais " + cooldown.get(e.getPlayer()) + " segundos!"); return; }
+        if(cooldown.get(e.getPlayer()) == null) { cooldown.put(e.getPlayer(), 0.0); }
+        if(cooldown.get(e.getPlayer()) > 0) { return; }
 
-        e.getPlayer().setVelocity(new Vector(0, 2, 0));
+        e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(1.5));
         disableFall.put(e.getPlayer(), true);
 
         final PlayerInteractEvent ev = e;
-        cooldown.put(ev.getPlayer(), 10);
+        cooldown.put(ev.getPlayer(), 1.0);
         task.put(e.getPlayer(), Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), new Runnable() {
             public void run() {
                 if(cooldown.get(ev.getPlayer()) == null) { return; }

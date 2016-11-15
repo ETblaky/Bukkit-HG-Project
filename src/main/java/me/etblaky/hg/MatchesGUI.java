@@ -60,6 +60,8 @@ public class MatchesGUI implements Listener{
         if(!inventory.getName().equals(inv.getName())) return;
 
         for(Game g : Game.getGames()){
+            if(clicked == null) return;
+            if(clicked.getItemMeta().getDisplayName() == null) return;
             if(g.getName().equalsIgnoreCase(clicked.getItemMeta().getDisplayName())){
                 if(g.getLobby().state == Lobby.MatchState.GAME){
                     g.setSpectator(player);

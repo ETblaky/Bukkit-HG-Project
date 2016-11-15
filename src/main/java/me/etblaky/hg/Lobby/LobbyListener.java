@@ -105,8 +105,8 @@ public class LobbyListener implements Listener{
 
     @EventHandler
     public void onPlayerLeave(final PlayerQuitEvent e){
-        for(Game g : Game.getGames()){
-            for(Player p : g.getLobby().getPlayers()){
+        for(final Game g : Game.getGames()){
+            for(final Player p : g.getLobby().getPlayers()){
                 if(p.getUniqueId().equals(e.getPlayer().getUniqueId())){
                     g.getLobby().removePlayer(p);
                 }

@@ -98,26 +98,30 @@ public class Game {
 
     public void removePlayer(Player p){
 
-        if(players.size() == 1){
-            stop(players.get(0));
-        }
+        for(int i = 0; i < players.size(); i++){
 
-        for(int i = 0; i < players.size() - 1; i++){
             if(players.get(i).getUniqueId().equals(p.getUniqueId())){
+                System.out.println("Removing " + players.get(i).getName());
                 players.remove(i);
             }
 
-            players.get(i).setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+            p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 
             kits.removeAbilities(p);
 
-            players.get(i).getInventory().clear();
-            me.etblaky.hg.Main.giveItems(players.get(i));
+            p.getInventory().clear();
+            me.etblaky.hg.Main.giveItems(p);
 
             p.teleport(Main.getSpawn());
             p.setGameMode(GameMode.ADVENTURE);
         }
 
+        if(players.size() == 1) stop(players.get(0));
+        if(players.size() < 1) stop(null);
+
+    }
+
+    public void removeSpectator(Player p){
         for(int i = 0; i < spectators.size() - 1; i++){
             if(spectators.get(i).getUniqueId().equals(p.getUniqueId())){
                 spectators.remove(i);
@@ -136,6 +140,8 @@ public class Game {
     }
 
     public void setSpectator(Player p){
+        System.out.println("Setting spectator: " + p.getName());
+
         p.setGameMode(GameMode.SPECTATOR);
         spectators.add(p);
 
@@ -204,6 +210,8 @@ public class Game {
 
     public void stop(Player p1){
 
+        System.out.println("Stopping");
+
         lobby.state = Lobby.MatchState.RELOADING;
 
         if(p1 != null){
@@ -225,6 +233,17 @@ public class Game {
                     kits.removeAbilities(p);
                     p.teleport(Main.getSpawn());
                     me.etblaky.hg.Main.verifyStatus(p);
+                    me.etblaky.hg.Main.giveItems(p);
+                }
+
+                for(Player p : spectators) {
+                    p.getInventory().clear();
+                    p.setGameMode(GameMode.ADVENTURE);
+                    p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                    kits.removeAbilities(p);
+                    p.teleport(Main.getSpawn());
+                    me.etblaky.hg.Main.verifyStatus(p);
+                    me.etblaky.hg.Main.giveItems(p);
                 }
 
                 kits.playersKits.clear();
