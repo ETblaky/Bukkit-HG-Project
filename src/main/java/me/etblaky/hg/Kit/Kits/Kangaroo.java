@@ -6,8 +6,9 @@ import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
 import me.etblaky.hg.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -64,10 +65,10 @@ public class Kangaroo extends KitBase {
         if(cooldown.get(e.getPlayer()) == null) { cooldown.put(e.getPlayer(), 0.0); }
         if(cooldown.get(e.getPlayer()) > 0) { return; }
 
-        if(e.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR) return;
+        if(getDistance(e.getPlayer()) > 2) return;
 
         if(e.getPlayer().isSneaking()){
-            e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(3));
+            e.getPlayer().setVelocity(e.getPlayer().getLocation().getDirection().multiply(2.6));
         }
         else {
             e.getPlayer().setVelocity(new Vector(0, 1, 0));
@@ -90,6 +91,18 @@ public class Kangaroo extends KitBase {
 
     }
 
+    public static int getDistance(Entity e){
+        Location loc = e.getLocation().clone();
+        double y = loc.getBlockY();
+        int distance = 0;
+        for (double i = y; i >= 0; i--){
+            loc.setY(i);
+            if(loc.getBlock().getType().isSolid())break;
+            distance++;
+        }
+        return distance;
+    }
+
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent e){
         for(Game g : Game.getGames()){
@@ -108,8 +121,30 @@ public class Kangaroo extends KitBase {
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
         if(e.getCause() != EntityDamageEvent.DamageCause.FALL) return;
 
-        if(e.getFinalDamage() > 8) e.setDamage(8);
+        try {
+
+            Object damage = null;
+
+            if(getVersion().equals("v1_8_R1")){
+                damage = e.getClass().getMethod("getFinalDamage").invoke(e);
+            }
+            else if(getVersion().equals("v1_10_R1")){
+                damage = e.getClass().getMethod("getDamage").invoke(e);
+            }
+
+            if((Double) damage > 8) e.setDamage(8);
+
+        }
+
+        catch (Exception e1) {
+            e1.printStackTrace();
+        }
 
     }
+
+    public String getVersion() {
+        return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+    }
+
 
 }

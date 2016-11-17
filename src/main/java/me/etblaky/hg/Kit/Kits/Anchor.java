@@ -4,6 +4,7 @@ import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -53,11 +54,32 @@ public class Anchor extends KitBase{
         if(!k.playersKits.get(e.getEntity()).equals(Kit.Kits.ANCHOR) && !k.playersKits.get((Player) e.getDamager()).equals(Kit.Kits.ANCHOR)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
 
-        System.out.println("Hello");
-
         e.setCancelled(true);
-        ((Player) e.getEntity()).damage(e.getDamage());
+
+        try {
+
+            Object damage = null;
+
+            if(getVersion().equals("v1_8_R1")){
+                damage = e.getClass().getMethod("getFinalDamage").invoke(e);
+            }
+            else if(getVersion().equals("v1_10_R1")){
+                damage = e.getClass().getMethod("getDamage").invoke(e);
+            }
+
+            ((Player) e.getEntity()).damage((Double) damage);
+
+        }
+
+        catch (Exception e1) {
+            e1.printStackTrace();
+        }
 
     }
+
+    public String getVersion() {
+        return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+    }
+
 
 }
