@@ -39,13 +39,9 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onPlayerLeave(final PlayerQuitEvent e){
-        for(final Game g : Game.getGames()){
-            for(final Player p : g.getPlayers()){
-                if(p.getUniqueId().equals(e.getPlayer().getUniqueId())){
-                    g.removePlayer(p);
-                }
-            }
-        }
+        if(Game.playerGame(e.getPlayer()) == null) return;
+
+        Game.playerGame(e.getPlayer()).removePlayer(e.getPlayer());
     }
 
     @EventHandler
