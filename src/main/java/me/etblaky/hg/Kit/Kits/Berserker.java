@@ -47,9 +47,7 @@ public class Berserker extends KitBase {
         }
 
         if(k== null) return;
-        if(k.playersKits == null) return;
-        if(k.playersKits.get(e.getEntity().getKiller()) == null) return;
-        if(!k.playersKits.get(e.getEntity().getKiller()).equals(Kit.Kits.BERSERKER)) return;
+        if(!k.isKit((Player) e.getEntity(), Kit.Kits.BERSERKER)) return;
 
         e.getEntity().getKiller().addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30 * 20, 1));
 

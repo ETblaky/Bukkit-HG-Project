@@ -43,10 +43,8 @@ public class Stomper extends KitBase {
         }
 
         if(k== null) return;
-        if(k.playersKits == null) return;
         if(!(e.getEntity() instanceof Player)) return;
-        if(k.playersKits.get(e.getEntity()) == null) return;
-        if(!k.playersKits.get(e.getEntity()).equals(Kit.Kits.STOMPER)) return;
+        if(!k.isKit((Player) e.getEntity(), Kit.Kits.STOMPER)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
         if(e.getCause() != EntityDamageEvent.DamageCause.FALL) return;
 

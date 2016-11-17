@@ -4,6 +4,7 @@ import me.etblaky.Main;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Lobby.Lobby;
 import me.etblaky.titles.TitleApi;
+import me.etblaky.vip.VipSys;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -109,7 +110,8 @@ public class Game {
 
             p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 
-            kits.removeAbilities(p);
+            kits.removeAbilities(p, false);
+            if(VipSys.isVip(p)) { kits.removeAbilities(p, true); }
 
             p.getInventory().clear();
             me.etblaky.hg.Main.giveItems(p);
@@ -133,7 +135,8 @@ public class Game {
 
             spectators.get(i).setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 
-            kits.removeAbilities(p);
+            kits.removeAbilities(p, false);
+            if(VipSys.isVip(p)){ kits.removeAbilities(p, true); }
 
             players.get(i).getInventory().clear();
             me.etblaky.hg.Main.giveItems(players.get(i));
@@ -166,7 +169,7 @@ public class Game {
 
             p.getInventory().addItem(new ItemStack(Material.COMPASS));
 
-            for (ItemStack is : kits.getItems(p)) {
+            for (ItemStack is : kits.getItems(p, false)) {
 
                 if(is.getMaxStackSize() > 1){
                     if(is.getItemMeta().getLore() != null){
@@ -198,7 +201,42 @@ public class Game {
 
             }
 
-            kits.setAbilities(p);
+            if(VipSys.isVip(p)){
+                for (ItemStack is : kits.getItems(p, true)) {
+
+                    if(is.getMaxStackSize() > 1){
+                        if(is.getItemMeta().getLore() != null){
+                            ItemMeta im = is.getItemMeta();
+                            im.setLore(is.getItemMeta().getLore());
+                            is.setItemMeta(im);
+                        }
+                        p.getInventory().addItem(is);
+                    }
+
+                    else {
+                        for(int i = 0; i < is.getAmount(); i ++){
+                            ItemStack is1 = new ItemStack(is.getType());
+                            if(is.getItemMeta().getEnchants().size() > 0){
+                                for(Enchantment e : is.getItemMeta().getEnchants().keySet()){
+                                    ItemMeta im = is1.getItemMeta();
+                                    im.addEnchant(e, is.getItemMeta().getEnchants().get(e), true);
+                                    is1.setItemMeta(im);
+                                }
+                            }
+                            if(is.getItemMeta().getLore() != null){
+                                ItemMeta im = is1.getItemMeta();
+                                im.setLore(is.getItemMeta().getLore());
+                                is1.setItemMeta(im);
+                            }
+                            p.getInventory().addItem(is1);
+                        }
+                    }
+
+                }
+            }
+
+            kits.setAbilities(p, false);
+            if(VipSys.isVip(p)){ kits.setAbilities(p, true); }
 
             p.teleport(loc);
             p.setGameMode(GameMode.SURVIVAL);
@@ -238,7 +276,8 @@ public class Game {
 
                     p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 
-                    kits.removeAbilities(p);
+                    kits.removeAbilities(p, false);
+                    if(VipSys.isVip(p)) { kits.removeAbilities(p, true); }
 
                     p.teleport(Main.getSpawn());
 
@@ -256,7 +295,8 @@ public class Game {
 
                     p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 
-                    kits.removeAbilities(p);
+                    kits.removeAbilities(p, false);
+                    if(VipSys.isVip(p)) { kits.removeAbilities(p, true); }
 
                     p.teleport(Main.getSpawn());
 

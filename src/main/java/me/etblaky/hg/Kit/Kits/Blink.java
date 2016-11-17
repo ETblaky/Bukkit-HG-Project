@@ -52,8 +52,7 @@ public class Blink extends KitBase {
         }
 
         if(!e.getPlayer().getItemInHand().getType().equals(Material.NETHER_STAR)) return;
-        if(k.playersKits.get(e.getPlayer()) == null) return;
-        if(!k.playersKits.get(e.getPlayer()).equals(Kit.Kits.BLINK)) return;
+        if(!k.isKit(e.getPlayer(), Kit.Kits.BLINK)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
 
         if(cooldown.get(e.getPlayer()) == null) { cooldown.put(e.getPlayer(), 0); }

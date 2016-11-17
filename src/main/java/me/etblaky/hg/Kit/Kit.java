@@ -28,11 +28,13 @@ public class Kit {
         KANGAROO,
         ENDERMAGE,
         STOMPER
+
     }
 
     public Lobby l;
 
     public HashMap<Player, Kits> playersKits = new HashMap<Player, Kits>();
+    public HashMap<Player, Kits> vipsSecondKits = new HashMap<Player, Kits>();
 
     public Kit(){
     }
@@ -49,6 +51,10 @@ public class Kit {
 
         String className = k.toString().toLowerCase().substring(0, 1).toUpperCase() + k.toString().toLowerCase().substring(1);
 
+        if(k == Kits.BEASTMASTER){
+            className = "BeastMaster"; //Two capital letters
+        }
+
         try {
             return Class.forName("me.etblaky.hg.Kit.Kits." + className);
         }
@@ -59,89 +65,180 @@ public class Kit {
         }
     }
 
-    public String getName(Player p){
+    public String getName(Player p, boolean isVip){
 
-        try{
-            for(Kits k : Kits.values()){
-                if(playersKits.get(p).equals(k)){
+        if(isVip){
+            try{
+                for(Kits k : Kits.values()){
+                    if(vipsSecondKits.get(p).equals(k)){
 
-                    Object kitClass = getKitClass(k).newInstance();
+                        Object kitClass = getKitClass(k).newInstance();
 
-                    Method getName = kitClass.getClass().getDeclaredMethod("getName");
+                        Method getName = kitClass.getClass().getDeclaredMethod("getName");
 
-                    return (String) getName.invoke(kitClass);
+                        return (String) getName.invoke(kitClass);
+                    }
                 }
+            }
+
+            catch (Exception e){
+                e.printStackTrace();
             }
         }
 
-        catch (Exception e){
-            e.printStackTrace();
+        else {
+            try{
+                for(Kits k : Kits.values()){
+                    if(playersKits.get(p).equals(k)){
+
+                        Object kitClass = getKitClass(k).newInstance();
+
+                        Method getName = kitClass.getClass().getDeclaredMethod("getName");
+
+                        return (String) getName.invoke(kitClass);
+                    }
+                }
+            }
+
+            catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         return null;
 
     }
 
-    public ItemStack[] getItems(Player p){
+    public ItemStack[] getItems(Player p, boolean isVip){
 
-        try{
-            for(Kits k : Kits.values()){
-                if(playersKits.get(p).equals(k)){
+        if(isVip){
+            try{
+                for(Kits k : Kits.values()){
+                    if(vipsSecondKits.get(p).equals(k)){
 
-                    Object kitClass = getKitClass(k).newInstance();
+                        Object kitClass = getKitClass(k).newInstance();
 
-                    Method getName = kitClass.getClass().getDeclaredMethod("getItems");
+                        Method getName = kitClass.getClass().getDeclaredMethod("getItems");
 
-                    return (ItemStack[]) getName.invoke(kitClass);
+                        return (ItemStack[]) getName.invoke(kitClass);
+                    }
                 }
+            }
+
+            catch (Exception e){
+                e.printStackTrace();
             }
         }
 
-        catch (Exception e){
-            e.printStackTrace();
+        else {
+
+            try {
+                for (Kits k : Kits.values()) {
+                    if (playersKits.get(p).equals(k)) {
+
+                        Object kitClass = getKitClass(k).newInstance();
+
+                        Method getName = kitClass.getClass().getDeclaredMethod("getItems");
+
+                        return (ItemStack[]) getName.invoke(kitClass);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 
         return null;
     }
 
-    public void setAbilities(Player p){
+    public void setAbilities(Player p, boolean isVip){
+        if(isVip) {
 
-        try{
-            for(Kits k : Kits.values()){
-                if(playersKits.get(p).equals(k)){
+            try {
+                for (Kits k : Kits.values()) {
+                    if (vipsSecondKits.get(p).equals(k)) {
 
-                    Object kitClass = getKitClass(k).newInstance();
+                        Object kitClass = getKitClass(k).newInstance();
 
-                    Method getName = kitClass.getClass().getDeclaredMethod("setAbilities", Player.class);
+                        Method getName = kitClass.getClass().getDeclaredMethod("setAbilities", Player.class);
 
-                    getName.invoke(kitClass, p);
+                        getName.invoke(kitClass, p);
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
 
-        catch (Exception e){
-            e.printStackTrace();
+        }
+        else {
+
+            try {
+                for (Kits k : Kits.values()) {
+                    if (playersKits.get(p).equals(k)) {
+
+                        Object kitClass = getKitClass(k).newInstance();
+
+                        Method getName = kitClass.getClass().getDeclaredMethod("setAbilities", Player.class);
+
+                        getName.invoke(kitClass, p);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
-    public void removeAbilities(Player p){
-        try{
-            for(Kits k : Kits.values()){
-                if(playersKits.get(p).equals(k)){
+    public void removeAbilities(Player p, boolean isVip){
+        if(isVip) {
 
-                    Object kitClass = getKitClass(k).newInstance();
+            try {
+                for (Kits k : Kits.values()) {
+                    if (vipsSecondKits.get(p).equals(k)) {
 
-                    Method getName = kitClass.getClass().getDeclaredMethod("removeAbilities", Player.class);
+                        Object kitClass = getKitClass(k).newInstance();
 
-                    getName.invoke(kitClass, p);
+                        Method getName = kitClass.getClass().getDeclaredMethod("setAbilities", Player.class);
+
+                        getName.invoke(kitClass, p);
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+        }
+        else {
+
+            try {
+                for (Kits k : Kits.values()) {
+                    if (playersKits.get(p).equals(k)) {
+
+                        Object kitClass = getKitClass(k).newInstance();
+
+                        Method getName = kitClass.getClass().getDeclaredMethod("setAbilities", Player.class);
+
+                        getName.invoke(kitClass, p);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 
-        catch (Exception e){
-            e.printStackTrace();
-        }
+    }
 
+    public boolean isKit(Player p, Kits k){
+
+        if(p == null || k == null) return false;
+
+        if(playersKits.get(p).equals(k)) { return true; }
+        if(vipsSecondKits.get(p).equals(k)) { return true; }
+
+        return false;
     }
 
 }

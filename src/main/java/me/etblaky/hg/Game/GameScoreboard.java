@@ -1,5 +1,6 @@
 package me.etblaky.hg.Game;
 
+import me.etblaky.vip.VipSys;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -19,6 +20,7 @@ public class GameScoreboard {
 
     Objective objective;
     Score kit;
+    Score vipKit;
     Score time;
     Score players;
 
@@ -42,12 +44,14 @@ public class GameScoreboard {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName("HG-Project");
 
-        kit = objective.getScore(ChatColor.GREEN + "Kit: " + game.getKit().getName(p));
+        kit = objective.getScore(ChatColor.GREEN + "Kit: " + game.getKit().getName(p, false));
+        if(VipSys.isVip(p)){ vipKit = objective.getScore(ChatColor.GREEN + "Segundo Kit: " + game.getKit().getName(p, true)); }
         time = objective.getScore(ChatColor.GREEN + "Time: " + (game.getTimer().getTime() - 1));
         players = objective.getScore(ChatColor.GREEN + "Players: " + lobby.players.size());
 
-        time.setScore(0);
         kit.setScore(0);
+        if(VipSys.isVip(p)){ vipKit.setScore(0); }
+        time.setScore(0);
         players.setScore(0);
 
         p.setScoreboard(board);

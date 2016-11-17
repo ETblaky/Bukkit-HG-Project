@@ -50,8 +50,7 @@ public class Anchor extends KitBase{
 
         if(!(e.getEntity() instanceof Player)) return;
         if(!(e.getDamager() instanceof  Player)) return;
-        if(k.playersKits.get(e.getEntity()) == null) return;
-        if(!k.playersKits.get(e.getEntity()).equals(Kit.Kits.ANCHOR) && !k.playersKits.get((Player) e.getDamager()).equals(Kit.Kits.ANCHOR)) return;
+        if(!k.isKit((Player) e.getEntity(), Kit.Kits.ANCHOR) && !k.isKit((Player) e.getEntity(), Kit.Kits.ANCHOR)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
 
         e.setCancelled(true);

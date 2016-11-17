@@ -56,9 +56,7 @@ public class Barbarian extends KitBase {
         Player killer = dead.getKiller();
         if(killer == null) return;
         if(k== null) return;
-        if(k.playersKits == null) return;
-        if(k.playersKits.get(killer) == null) return;
-        if(!k.playersKits.get(killer).equals(Kit.Kits.BARBARIAN)) return;
+        if(!k.isKit((Player) e.getEntity(), Kit.Kits.BARBARIAN)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
 
         for(int i = 0; i < killer.getInventory().getSize(); i ++){

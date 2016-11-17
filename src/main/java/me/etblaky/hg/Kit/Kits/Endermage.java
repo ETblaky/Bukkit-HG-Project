@@ -56,12 +56,10 @@ public class Endermage extends KitBase {
             }
         }
 
-        if (k == null) return;
-        if (k.playersKits == null) return;
-        if (k.playersKits.get(e.getPlayer()) == null) return;
-        if (!k.playersKits.get(e.getPlayer()).equals(Kit.Kits.ENDERMAGE)) return;
-        if (!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
-        if (e.getBlockPlaced().getType() != Material.ENDER_PORTAL_FRAME) return;
+        if(k == null) return;
+        if(!k.isKit(e.getPlayer(), Kit.Kits.ENDERMAGE)) return;
+        if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
+        if(e.getBlockPlaced().getType() != Material.ENDER_PORTAL_FRAME) return;
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
             public void run() {

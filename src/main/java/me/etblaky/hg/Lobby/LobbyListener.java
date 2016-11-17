@@ -1,6 +1,7 @@
 package me.etblaky.hg.Lobby;
 
 import me.etblaky.hg.Game.Game;
+import me.etblaky.vip.VipSys;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,16 +46,28 @@ public class LobbyListener implements Listener{
 
         if(e.getPlayer().getItemInHand().getType().equals(Material.CHEST)) {
             if (e.getPlayer().getItemInHand().getItemMeta().getDisplayName() == null) return;
-            if (!e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Kits")) return;
-
-            for (Game g : Game.getGames()) {
-                for (Player p : g.getLobby().getPlayers()) {
-                    if (p.getUniqueId().equals(e.getPlayer().getUniqueId())) {
-                        p.openInventory(lobby.getGUI().getInv());
-                        return;
+            if (e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Kit")){
+                for (Game g : Game.getGames()) {
+                    for (Player p : g.getLobby().getPlayers()) {
+                        if (p.getUniqueId().equals(e.getPlayer().getUniqueId())) {
+                            p.openInventory(lobby.getGUI().getInv());
+                            return;
+                        }
                     }
                 }
             }
+
+            if (e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Segundo Kit")){
+                for (Game g : Game.getGames()) {
+                    for (Player p : g.getLobby().getPlayers()) {
+                        if (p.getUniqueId().equals(e.getPlayer().getUniqueId())) {
+                            p.openInventory(lobby.getGUI().getVipInv());
+                            return;
+                        }
+                    }
+                }
+            }
+
         }
 
         if(e.getPlayer().getItemInHand().getType().equals(Material.NETHER_STAR)) {
@@ -92,7 +105,13 @@ public class LobbyListener implements Listener{
                                 p.getInventory().setItem(8, is);
                             }
                             if(is.getType().equals(Material.CHEST)) {
-                                p.getInventory().setItem(0, is);
+                                if(is.getItemMeta().getDisplayName().equals("Kit")){
+                                    p.getInventory().setItem(0, is);
+                                }
+                                if(is.getItemMeta().getDisplayName().equals("Segundo Kit")){
+                                    if(VipSys.isVip(p))
+                                        p.getInventory().setItem(1, is);
+                                }
                             }
                             if(is.getType().equals(Material.NETHER_STAR)) {
                                 if(p.isOp()) {

@@ -50,8 +50,7 @@ public class Achilles extends KitBase{
 
         if(!(e.getEntity() instanceof Player)) return;
         if(!(e.getDamager() instanceof  Player)) return;
-        if(k.playersKits.get(e.getEntity()) == null) return;
-        if(!k.playersKits.get(e.getEntity()).equals(Kit.Kits.ACHILLES)) return;
+        if(!k.isKit((Player) e.getEntity(), Kit.Kits.ACHILLES)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
 
         if(((Player) e.getDamager()).getItemInHand().getType().equals(Material.WOOD_SWORD)){

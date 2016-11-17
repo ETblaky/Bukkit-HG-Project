@@ -4,6 +4,7 @@ import me.etblaky.Main;
 import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitGUI;
+import me.etblaky.vip.VipSys;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -65,8 +66,14 @@ public class Lobby {
         ItemStack chest = new ItemStack(Material.CHEST);
         ItemMeta imChest = chest.getItemMeta();
 
-        imChest.setDisplayName("Kits");
+        imChest.setDisplayName("Kit");
         chest.setItemMeta(imChest);
+
+        ItemStack chestVip = new ItemStack(Material.CHEST);
+        ItemMeta imChestVip = chest.getItemMeta();
+
+        imChestVip.setDisplayName("Segundo Kit");
+        chestVip.setItemMeta(imChestVip);
 
         ItemStack star = new ItemStack(Material.NETHER_STAR);
         ItemMeta imStar = star.getItemMeta();
@@ -76,6 +83,7 @@ public class Lobby {
 
         items.add(watch);
         items.add(chest);
+        items.add(chestVip);
         items.add(star);
 
         start();
@@ -128,6 +136,7 @@ public class Lobby {
         players.add(p);
 
         kits.playersKits.put(p, Kit.Kits.BASIC);
+        if(VipSys.isVip(p)) { kits.vipsSecondKits.put(p, Kit.Kits.BASIC); }
 
         for(ItemStack is : items){
 
@@ -135,7 +144,13 @@ public class Lobby {
                 p.getInventory().setItem(8, is);
             }
             if(is.getType().equals(Material.CHEST)) {
-                p.getInventory().setItem(0, is);
+                if(is.getItemMeta().getDisplayName().equals("Kit")){
+                    p.getInventory().setItem(0, is);
+                }
+                if(is.getItemMeta().getDisplayName().equals("Segundo Kit")){
+                    if(VipSys.isVip(p))
+                        p.getInventory().setItem(1, is);
+                }
             }
             if(is.getType().equals(Material.NETHER_STAR)) {
                 if(p.isOp()) {

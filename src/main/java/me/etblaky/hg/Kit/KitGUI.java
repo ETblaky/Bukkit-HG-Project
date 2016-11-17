@@ -27,21 +27,22 @@ public class KitGUI implements Listener{
     public Kit kit;
 
     public Inventory inv = Bukkit.createInventory(null, 18, "Escolha um kit.");
+    public Inventory vipInv = Bukkit.createInventory(null, 18, "Escolha um segundo kit.");
 
     public KitGUI(){
+        setUp();
     }
 
     public KitGUI(Kit k) {
         kit = k;
-
         setUp();
-
     }
 
     public void setUp(){
         vipkits.clear();
         kits.clear();
         inv.clear();
+        vipInv.clear();
 
         vipkits.add(Material.WOOD_SWORD); //Achillis
         vipkits.add(Material.ANVIL);//Anchor
@@ -62,8 +63,10 @@ public class KitGUI implements Listener{
         kits.put("Stomper", new Object[] {Material.DIAMOND_BOOTS, new String[] {"Transfira seu dano de queda ", "para players a 5 blocos ", "de onde você cair "} });
 
         for(String s : kits.keySet()){
+            vipInv.addItem(getItem((Material) kits.get(s)[0], s, (String[]) kits.get(s)[1]));
             inv.addItem(getItem((Material) kits.get(s)[0], s, (String[]) kits.get(s)[1]));
         }
+
     }
 
     @EventHandler
@@ -84,6 +87,7 @@ public class KitGUI implements Listener{
         setUp();
 
         if (inventory.getName().equals(inv.getName())) {
+
             for(String s : kits.keySet()){
                 e.setCancelled(true);
                 player.closeInventory();
@@ -103,8 +107,50 @@ public class KitGUI implements Listener{
         }
     }
 
+    @EventHandler
+    public void onVipInventoryClick(InventoryClickEvent e) {
+
+        Player player = (Player) e.getWhoClicked();
+        ItemStack clicked = e.getCurrentItem();
+        Inventory inventory = e.getInventory();
+
+        for(Game g : Game.getGames()){
+            for(Player p : g.getLobby().getPlayers()){
+                if(p.getUniqueId().equals(player.getUniqueId())){
+                    kit = g.getLobby().getKit();
+                }
+            }
+        }
+
+        setUp();
+
+        if (inventory.getName().equals(vipInv.getName())) {
+
+            for(String s : kits.keySet()){
+                e.setCancelled(true);
+                player.closeInventory();
+
+                if(kits.get(s)[0] == clicked.getType() ){
+
+                    if(vipkits.contains(kits.get(s)[0])) {
+                        if(!VipSys.isVip((Player) e.getWhoClicked())){
+                            ((Player) e.getWhoClicked()).sendMessage(ChatColor.RED + "Esse kit é apenas para VIPs! Adquira o seu em: kangarooKits.com.br/vip");
+                            return;
+                        }
+                    }
+
+                    kit.vipsSecondKits.put(player, Kit.Kits.valueOf(s.toUpperCase()));
+                }
+            }
+        }
+    }
+
     public Inventory getInv(){
         return inv;
+    }
+
+    public Inventory getVipInv(){
+        return vipInv;
     }
 
     public ItemStack getItem(Material m, String name, String... desc){

@@ -54,9 +54,7 @@ public class Kangaroo extends KitBase {
         }
 
         if(k== null) return;
-        if(k.playersKits == null) return;
-        if(k.playersKits.get(e.getPlayer()) == null) return;
-        if(!k.playersKits.get(e.getPlayer()).equals(Kit.Kits.KANGAROO)) return;
+        if(!k.isKit(e.getPlayer(), Kit.Kits.KANGAROO)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
         if(e.getPlayer().getItemInHand().getType() != Material.FIREWORK) return;
 
@@ -114,10 +112,8 @@ public class Kangaroo extends KitBase {
         }
 
         if(k== null) return;
-        if(k.playersKits == null) return;
         if(!(e.getEntity() instanceof Player)) return;
-        if(k.playersKits.get(e.getEntity()) == null) return;
-        if(!k.playersKits.get(e.getEntity()).equals(Kit.Kits.KANGAROO)) return;
+        if(!k.isKit((Player) e.getEntity(), Kit.Kits.KANGAROO)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
         if(e.getCause() != EntityDamageEvent.DamageCause.FALL) return;
 

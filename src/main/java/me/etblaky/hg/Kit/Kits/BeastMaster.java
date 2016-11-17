@@ -51,8 +51,7 @@ public class BeastMaster extends KitBase {
 
         if(!e.getPlayer().getItemInHand().getType().equals(Material.BONE)) return;
         if(!e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Spawne os lobos!")) return;
-        if(k.playersKits.get(e.getPlayer()) == null) return;
-        if(!k.playersKits.get(e.getPlayer()).equals(Kit.Kits.BEASTMASTER)) return;
+        if(!k.isKit(e.getPlayer(), Kit.Kits.BEASTMASTER)) return;
 
         e.getPlayer().getInventory().remove(e.getPlayer().getItemInHand());
 

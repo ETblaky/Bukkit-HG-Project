@@ -49,8 +49,7 @@ public class Boxer extends KitBase {
         if(k.playersKits == null) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
 
-        if(k.playersKits.get(e.getDamager()) == null) return;
-        if(k.playersKits.get(e.getDamager()).equals(Kit.Kits.BOXER)){
+        if(k.isKit((Player) e.getDamager(), Kit.Kits.BOXER)){
             if(((Player) e.getDamager()).getItemInHand() != null){
                 if(((Player) e.getDamager()).getItemInHand().getType() == Material.AIR)
 
@@ -78,8 +77,7 @@ public class Boxer extends KitBase {
             e.setDamage(5);
         }
 
-        if(k.playersKits.get(e.getDamager()) == null) return;
-        if(k.playersKits.get(e.getEntity()).equals(Kit.Kits.BOXER)){
+        if(k.isKit((Player) e.getEntity(), Kit.Kits.BOXER)){
             e.setDamage(e.getFinalDamage() - 3);
         }
     }
