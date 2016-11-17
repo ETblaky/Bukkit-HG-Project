@@ -1,10 +1,10 @@
 package me.etblaky.hg.Kit;
 
-import me.etblaky.hg.Kit.Kits.*;
 import me.etblaky.hg.Lobby.Lobby;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 
@@ -45,186 +45,103 @@ public class Kit {
         return l;
     }
 
+    private Class<?> getKitClass(Kits k) {
+
+        String className = k.toString().toLowerCase().substring(0, 1).toUpperCase() + k.toString().toLowerCase().substring(1);
+
+        try {
+            return Class.forName("me.etblaky.hg.Kit.Kits." + className);
+        }
+
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public String getName(Player p){
-        if(playersKits.get(p).equals(Kits.BASIC)){
-            return new Basic(this).getName();
+
+        try{
+            for(Kits k : Kits.values()){
+                if(playersKits.get(p).equals(k)){
+
+                    Object kitClass = getKitClass(k).newInstance();
+
+                    Method getName = kitClass.getClass().getDeclaredMethod("getName");
+
+                    return (String) getName.invoke(kitClass);
+                }
+            }
         }
-        if(playersKits.get(p).equals(Kits.ACHILLES)){
-            return new Achilles(this).getName();
+
+        catch (Exception e){
+            e.printStackTrace();
         }
-        if(playersKits.get(p).equals(Kits.ANCHOR)){
-            return new Anchor(this).getName();
-        }
-        if(playersKits.get(p).equals(Kits.ARCHER)){
-            return new Archer(this).getName();
-        }
-        if(playersKits.get(p).equals(Kits.ASSASSIN)){
-            return new Assassin(this).getName();
-        }
-        if(playersKits.get(p).equals(Kits.BARBARIAN)){
-            return new Barbarian(this).getName();
-        }
-        if(playersKits.get(p).equals(Kits.BEASTMASTER)){
-            return new BeastMaster(this).getName();
-        }
-        if(playersKits.get(p).equals(Kits.BERSERKER)){
-            return new Berserker(this).getName();
-        }
-        if(playersKits.get(p).equals(Kits.BLINK)){
-            return new Blink(this).getName();
-        }
-        if(playersKits.get(p).equals(Kits.BOXER)){
-            return new Boxer(this).getName();
-        }
-        if(playersKits.get(p).equals(Kits.CAMEL)){
-            return new Camel(this).getName();
-        }
-        if(playersKits.get(p).equals(Kits.KANGAROO)){
-            return new Kangaroo(this).getName();
-        }
-        if(playersKits.get(p).equals(Kits.ENDERMAGE)){
-            return new Endermage(this).getName();
-        }
-        if(playersKits.get(p).equals(Kits.STOMPER)){
-            return new Stomper(this).getName();
-        }
+
         return null;
+
     }
 
     public ItemStack[] getItems(Player p){
-        if(playersKits.get(p).equals(Kits.BASIC)){
-            return new Basic(this).getItems();
+
+        try{
+            for(Kits k : Kits.values()){
+                if(playersKits.get(p).equals(k)){
+
+                    Object kitClass = getKitClass(k).newInstance();
+
+                    Method getName = kitClass.getClass().getDeclaredMethod("getItems");
+
+                    return (ItemStack[]) getName.invoke(kitClass);
+                }
+            }
         }
-        if(playersKits.get(p).equals(Kits.ACHILLES)){
-            return new Achilles(this).getItems();
+
+        catch (Exception e){
+            e.printStackTrace();
         }
-        if(playersKits.get(p).equals(Kits.ANCHOR)){
-            return new Anchor(this).getItems();
-        }
-        if(playersKits.get(p).equals(Kits.ARCHER)){
-            return new Archer(this).getItems();
-        }
-        if(playersKits.get(p).equals(Kits.ASSASSIN)){
-            return new Assassin(this).getItems();
-        }
-        if(playersKits.get(p).equals(Kits.BARBARIAN)){
-            return new Barbarian(this).getItems();
-        }
-        if(playersKits.get(p).equals(Kits.BEASTMASTER)){
-            return new BeastMaster(this).getItems();
-        }
-        if(playersKits.get(p).equals(Kits.BERSERKER)){
-            return new Berserker(this).getItems();
-        }
-        if(playersKits.get(p).equals(Kits.BLINK)){
-            return new Blink(this).getItems();
-        }
-        if(playersKits.get(p).equals(Kits.BOXER)){
-            return new Boxer(this).getItems();
-        }
-        if(playersKits.get(p).equals(Kits.CAMEL)){
-            return new Camel(this).getItems();
-        }
-        if(playersKits.get(p).equals(Kits.KANGAROO)){
-            return new Kangaroo(this).getItems();
-        }
-        if(playersKits.get(p).equals(Kits.ENDERMAGE)){
-            return new Endermage(this).getItems();
-        }
-        if(playersKits.get(p).equals(Kits.STOMPER)){
-            return new Stomper(this).getItems();
-        }
+
         return null;
     }
 
     public void setAbilities(Player p){
-        if(playersKits.get(p).equals(Kits.BASIC)){
-            new Basic((this)).setAbilities(p);
+
+        try{
+            for(Kits k : Kits.values()){
+                if(playersKits.get(p).equals(k)){
+
+                    Object kitClass = getKitClass(k).newInstance();
+
+                    Method getName = kitClass.getClass().getDeclaredMethod("setAbilities", Player.class);
+
+                    getName.invoke(kitClass, p);
+                }
+            }
         }
-        if(playersKits.get(p).equals(Kits.ACHILLES)){
-            new Achilles(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.ANCHOR)){
-            new Anchor(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.ARCHER)){
-            new Archer(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.ASSASSIN)){
-            new Assassin(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.BARBARIAN)){
-            new Barbarian(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.BEASTMASTER)){
-            new BeastMaster(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.BERSERKER)){
-            new Berserker(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.BLINK)){
-            new Blink(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.BOXER)){
-            new Boxer(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.CAMEL)){
-            new Camel(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.KANGAROO)){
-            new Kangaroo(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.ENDERMAGE)){
-            new Endermage(this).setAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.STOMPER)){
-            new Stomper(this).setAbilities(p);
+
+        catch (Exception e){
+            e.printStackTrace();
         }
     }
 
     public void removeAbilities(Player p){
-        if(playersKits.get(p).equals(Kits.BASIC)){
-            new Basic(this).removeAbilities(p);
+        try{
+            for(Kits k : Kits.values()){
+                if(playersKits.get(p).equals(k)){
+
+                    Object kitClass = getKitClass(k).newInstance();
+
+                    Method getName = kitClass.getClass().getDeclaredMethod("removeAbilities", Player.class);
+
+                    getName.invoke(kitClass, p);
+                }
+            }
         }
-        if(playersKits.get(p).equals(Kits.ACHILLES)){
-            new Achilles(this).removeAbilities(p);
+
+        catch (Exception e){
+            e.printStackTrace();
         }
-        if(playersKits.get(p).equals(Kits.ANCHOR)){
-            new Anchor(this).removeAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.ARCHER)){
-            new Archer(this).removeAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.ASSASSIN)){
-            new Assassin(this).removeAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.BARBARIAN)){
-            new Barbarian(this).removeAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.BEASTMASTER)){
-            new BeastMaster(this).removeAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.BERSERKER)){
-            new Berserker(this).removeAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.BLINK)){
-            new Blink(this).removeAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.BOXER)){
-            new Boxer(this).removeAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.CAMEL)){
-            new Camel(this).removeAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.KANGAROO)){
-            new Kangaroo(this).removeAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.ENDERMAGE)){
-            new Endermage(this).removeAbilities(p);
-        }
-        if(playersKits.get(p).equals(Kits.STOMPER)){
-            new Stomper(this).removeAbilities(p);
-        }
+
     }
 
 }

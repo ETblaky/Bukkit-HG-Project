@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * Created by ETblaky on 05/11/2016.
  */
 public class KitBase implements Listener{
-
+    
     public ItemStack enchant(ItemStack is, int level, Enchantment e){
         ItemMeta im = is.getItemMeta();
         im.addEnchant(e, level, true);
