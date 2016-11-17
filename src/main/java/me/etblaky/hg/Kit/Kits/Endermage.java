@@ -5,16 +5,11 @@ import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
 import me.etblaky.hg.Main;
-import net.minecraft.server.v1_8_R1.EntityArmorStand;
-import net.minecraft.server.v1_8_R1.PacketPlayOutSpawnEntityLiving;
-import net.minecraft.server.v1_8_R1.WorldServer;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -70,7 +65,11 @@ public class Endermage extends KitBase {
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), new Runnable() {
             public void run() {
-                CraftEntity ent = spawn(e.getBlockPlaced().getLocation().add(0, 1, 0), e.getPlayer());
+                ArmorStand ent = (ArmorStand) e.getBlockPlaced().getLocation().getWorld().spawnEntity(e.getBlockPlaced().getLocation().add(0, 1, 0), EntityType.ARMOR_STAND); //(e.getBlockPlaced().getLocation().add(0, 1, 0), e.getPlayer());
+
+                ent.setGravity(true);
+                ent.setVisible(false);
+                ent.setSmall(true);
 
                 for (Entity en : ent.getNearbyEntities(3, 200, 3)) {
                     if(!(en instanceof Player)) return;
@@ -85,22 +84,6 @@ public class Endermage extends KitBase {
 
             }
         }, 30);
-
-    }
-
-    public CraftEntity spawn(Location loc, Player p) {
-        WorldServer s = ((CraftWorld) loc.getWorld()).getHandle();
-        EntityArmorStand stand = new EntityArmorStand(s);
-
-        stand.setLocation(loc.getX(), loc.getY(), loc.getZ(), 0, 0);
-        stand.setGravity(true);
-        stand.setInvisible(true);
-        stand.setSmall(true);
-
-        PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving(stand);
-        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-
-        return stand.getBukkitEntity();
 
     }
 
