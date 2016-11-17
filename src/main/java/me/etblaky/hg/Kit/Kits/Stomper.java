@@ -1,6 +1,5 @@
 package me.etblaky.hg.Kit.Kits;
 
-import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
@@ -34,15 +33,10 @@ public class Stomper extends KitBase {
 
     @EventHandler
     public void playerDamage(EntityDamageEvent e){
-        for(Game g : Game.getGames()){
-            for(Player p : g.getLobby().getPlayers()){
-                if(p.getUniqueId().equals((e.getEntity()).getUniqueId())){
-                    k = g.getLobby().getKit();
-                }
-            }
-        }
 
+        k = setKit(k, (Player) e.getEntity());
         if(k== null) return;
+
         if(!(e.getEntity() instanceof Player)) return;
         if(!k.isKit((Player) e.getEntity(), Kit.Kits.STOMPER)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;

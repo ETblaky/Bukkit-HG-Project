@@ -1,6 +1,5 @@
 package me.etblaky.hg.Kit.Kits;
 
-import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
@@ -48,15 +47,10 @@ public class Endermage extends KitBase {
 
     @EventHandler
     public void onPlayerUse(final BlockPlaceEvent e) {
-        for (Game g : Game.getGames()) {
-            for (Player p : g.getLobby().getPlayers()) {
-                if (p.getUniqueId().equals((e.getPlayer()).getUniqueId())) {
-                    k = g.getLobby().getKit();
-                }
-            }
-        }
 
-        if(k == null) return;
+        k = setKit(k, e.getPlayer());
+        if(k== null) return;
+
         if(!k.isKit(e.getPlayer(), Kit.Kits.ENDERMAGE)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
         if(e.getBlockPlaced().getType() != Material.ENDER_PORTAL_FRAME) return;

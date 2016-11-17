@@ -1,6 +1,5 @@
 package me.etblaky.hg.Kit.Kits;
 
-import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitBase;
 import org.bukkit.Material;
@@ -41,13 +40,9 @@ public class BeastMaster extends KitBase {
 
     @EventHandler
     public void onPlayerSpawnWolf(PlayerInteractEvent e){
-        for(Game g : Game.getGames()){
-            for(Player p : g.getLobby().getPlayers()){
-                if(p.getUniqueId().equals(e.getPlayer().getUniqueId())){
-                    k = g.getLobby().getKit();
-                }
-            }
-        }
+
+        k = setKit(k, e.getPlayer());
+        if(k == null) return;
 
         if(!e.getPlayer().getItemInHand().getType().equals(Material.BONE)) return;
         if(!e.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("Spawne os lobos!")) return;

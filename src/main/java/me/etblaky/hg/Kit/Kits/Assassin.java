@@ -1,6 +1,5 @@
 package me.etblaky.hg.Kit.Kits;
 
-import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
@@ -51,15 +50,10 @@ public class Assassin extends KitBase {
 
     @EventHandler
     public void onPlayerSneak(PlayerToggleSneakEvent e){
-        for(Game g : Game.getGames()){
-            for(Player p : g.getLobby().getPlayers()){
-                if(p.getUniqueId().equals(e.getPlayer().getUniqueId())){
-                    k = g.getLobby().getKit();
-                }
-            }
-        }
 
+        k = setKit(k, e.getPlayer());
         if(k== null) return;
+
         if(!k.isKit(e.getPlayer(), Kit.Kits.ASSASSIN)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
 
@@ -86,17 +80,12 @@ public class Assassin extends KitBase {
     @EventHandler
     public void onPlayerHit(EntityDamageByEntityEvent e){
 
-        for(Game g : Game.getGames()){
-            for(Player p : g.getLobby().getPlayers()){
-                if(p.getUniqueId().equals(((Player) e.getDamager()).getUniqueId())){
-                    k = g.getLobby().getKit();
-                }
-            }
-        }
-
-        //if(!(e.getEntity() instanceof Player)) return;
+        if(!(e.getEntity() instanceof Player)) return;
         if(!(e.getDamager() instanceof  Player)) return;
+
+        k = setKit(k, (Player) e.getDamager());
         if(k== null) return;
+
         if(!k.isKit((Player) e.getEntity(), Kit.Kits.ASSASSIN)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
 

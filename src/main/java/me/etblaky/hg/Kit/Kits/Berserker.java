@@ -1,6 +1,5 @@
 package me.etblaky.hg.Kit.Kits;
 
-import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitBase;
 import org.bukkit.entity.Player;
@@ -38,15 +37,9 @@ public class Berserker extends KitBase {
     public void onEntityDeath(EntityDeathEvent e){
         if(e.getEntity().getKiller() == null) return;
 
-        for(Game g : Game.getGames()){
-            for(Player p : g.getLobby().getPlayers()){
-                if(p.getUniqueId().equals(e.getEntity().getKiller().getUniqueId())){
-                    k = g.getLobby().getKit();
-                }
-            }
-        }
-
+        k = setKit(k, e.getEntity().getKiller());
         if(k== null) return;
+
         if(!k.isKit((Player) e.getEntity(), Kit.Kits.BERSERKER)) return;
 
         e.getEntity().getKiller().addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30 * 20, 1));

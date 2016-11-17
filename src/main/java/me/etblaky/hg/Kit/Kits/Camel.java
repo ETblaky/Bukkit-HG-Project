@@ -1,6 +1,5 @@
 package me.etblaky.hg.Kit.Kits;
 
-import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
@@ -54,15 +53,10 @@ public class Camel extends KitBase {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e){
-        for(Game g : Game.getGames()){
-            for(Player p : g.getLobby().getPlayers()){
-                if(p.getUniqueId().equals((e.getPlayer()).getUniqueId())){
-                    k = g.getLobby().getKit();
-                }
-            }
-        }
 
+        k = setKit(k, e.getPlayer());
         if(k== null) return;
+
         if(!k.isKit(e.getPlayer(), Kit.Kits.CAMEL)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
         Block b = e.getPlayer().getLocation().getWorld().getBlockAt(e.getPlayer().getLocation().getBlockX(), e.getPlayer().getLocation().getBlockY() - 1, e.getPlayer().getLocation().getBlockZ());
@@ -74,6 +68,10 @@ public class Camel extends KitBase {
 
     @EventHandler
     public void onCraftItem(CraftItemEvent e){
+
+        k = setKit(k, (Player) e.getWhoClicked());
+        if(k== null) return;
+
         if(!k.isKit((Player) e.getWhoClicked(), Kit.Kits.CAMEL)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
         if(!e.getRecipe().getResult().getType().equals(Material.MUSHROOM_SOUP)) return;

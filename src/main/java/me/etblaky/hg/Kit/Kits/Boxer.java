@@ -1,6 +1,5 @@
 package me.etblaky.hg.Kit.Kits;
 
-import me.etblaky.hg.Game.Game;
 import me.etblaky.hg.Kit.Kit;
 import me.etblaky.hg.Kit.KitBase;
 import me.etblaky.hg.Lobby.Lobby;
@@ -35,18 +34,12 @@ public class Boxer extends KitBase {
 
     @EventHandler
     public void onPlayerHit(EntityDamageByEntityEvent e){
-        for(Game g : Game.getGames()){
-            for(Player p : g.getLobby().getPlayers()){
-                if(p.getUniqueId().equals(e.getDamager().getUniqueId())){
-                    k = g.getLobby().getKit();
-                }
-            }
-        }
-
 
         if(!(e.getDamager() instanceof  Player)) return;
+
+        k = setKit(k, (Player) e.getDamager());
         if(k== null) return;
-        if(k.playersKits == null) return;
+
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
 
         if(k.isKit((Player) e.getDamager(), Kit.Kits.BOXER)){
