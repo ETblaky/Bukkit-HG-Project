@@ -90,4 +90,17 @@ public class LobbyTimer {
         Bukkit.getScheduler().cancelTask(scheduler);
     }
 
+    public String getTimeStr(){
+
+        int s = time;
+        int m = 0;
+
+        for(int i = 0; i < (s/60); i++){
+            m++;
+        }
+        s = s -(m * 60);
+
+        return m + "m " + s + "s";
+    }
+
 }

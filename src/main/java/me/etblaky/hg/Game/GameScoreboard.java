@@ -46,7 +46,7 @@ public class GameScoreboard {
 
         kit = objective.getScore(ChatColor.GREEN + "Kit: " + (game.getKit().getName(p, false) != null ? game.getKit().getName(p, false) : ""));
         if(VipSys.isVip(p)){ vipKit = objective.getScore(ChatColor.GREEN + "Segundo Kit: " + (game.getKit().getName(p, true) != null ? game.getKit().getName(p, true) : "")); }
-        time = objective.getScore(ChatColor.GREEN + "Time: " + (game.getTimer().getTime() - 1));
+        time = objective.getScore(ChatColor.GREEN + "Time: " + game.getTimer().getTimeStr());
         players = objective.getScore(ChatColor.GREEN + "Players: " + lobby.players.size());
 
         kit.setScore(0);
