@@ -42,8 +42,8 @@ public class LobbyScoreboard {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName(lobby.getGame().name);
 
-        kit = objective.getScore(ChatColor.GREEN + "Kit: " + lobby.getKit().getName(p, false));
-        if(VipSys.isVip(p)){ vipKit = objective.getScore(ChatColor.GREEN + "Kit 2: " + lobby.getKit().getName(p, true)); }
+        kit = objective.getScore(ChatColor.GREEN + "Kit: " + (lobby.getKit().getName(p, false) != null ? lobby.getKit().getName(p, false) : ""));
+        if(VipSys.isVip(p)){ vipKit = objective.getScore(ChatColor.GREEN + "Kit 2: " + (lobby.getKit().getName(p, true) != null ? lobby.getKit().getName(p, true) : "")); }
         time = objective.getScore(ChatColor.GREEN + "Time: " + lobby.getTimer().getTime());
         players = objective.getScore(ChatColor.GREEN + "Players: " + lobby.players.size());
 

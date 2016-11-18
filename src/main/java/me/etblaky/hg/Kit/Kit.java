@@ -1,6 +1,7 @@
 package me.etblaky.hg.Kit;
 
 import me.etblaky.hg.Lobby.Lobby;
+import me.etblaky.vip.VipSys;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -70,6 +71,7 @@ public class Kit {
         if(isVip){
             try{
                 for(Kits k : Kits.values()){
+                    if(vipsSecondKits.get(p) == null) return null;
                     if(vipsSecondKits.get(p).equals(k)){
 
                         Object kitClass = getKitClass(k).newInstance();
@@ -89,6 +91,7 @@ public class Kit {
         else {
             try{
                 for(Kits k : Kits.values()){
+                    if(playersKits.get(p) == null) return null;
                     if(playersKits.get(p).equals(k)){
 
                         Object kitClass = getKitClass(k).newInstance();
@@ -114,6 +117,7 @@ public class Kit {
         if(isVip){
             try{
                 for(Kits k : Kits.values()){
+                    if(vipsSecondKits.get(p) == null) return null;
                     if(vipsSecondKits.get(p).equals(k)){
 
                         Object kitClass = getKitClass(k).newInstance();
@@ -134,6 +138,7 @@ public class Kit {
 
             try {
                 for (Kits k : Kits.values()) {
+                    if(playersKits.get(p) == null) return null;
                     if (playersKits.get(p).equals(k)) {
 
                         Object kitClass = getKitClass(k).newInstance();
@@ -157,6 +162,7 @@ public class Kit {
 
             try {
                 for (Kits k : Kits.values()) {
+                    if (vipsSecondKits.get(p) == null) return;
                     if (vipsSecondKits.get(p).equals(k)) {
 
                         Object kitClass = getKitClass(k).newInstance();
@@ -175,6 +181,7 @@ public class Kit {
 
             try {
                 for (Kits k : Kits.values()) {
+                    if(playersKits.get(p) == null) return;
                     if (playersKits.get(p).equals(k)) {
 
                         Object kitClass = getKitClass(k).newInstance();
@@ -196,6 +203,7 @@ public class Kit {
 
             try {
                 for (Kits k : Kits.values()) {
+                    if(vipsSecondKits.get(p) == null) return;
                     if (vipsSecondKits.get(p).equals(k)) {
 
                         Object kitClass = getKitClass(k).newInstance();
@@ -214,6 +222,7 @@ public class Kit {
 
             try {
                 for (Kits k : Kits.values()) {
+                    if(playersKits.get(p) == null) return;
                     if (playersKits.get(p).equals(k)) {
 
                         Object kitClass = getKitClass(k).newInstance();
@@ -234,9 +243,11 @@ public class Kit {
     public boolean isKit(Player p, Kits k){
 
         if(p == null || k == null) return false;
+        if(playersKits.get(p) == null) return false;
+        if(VipSys.isVip(p)) { if(vipsSecondKits.get(p) == null) { return false;} }
 
         if(playersKits.get(p).equals(k)) { return true; }
-        if(vipsSecondKits.get(p).equals(k)) { return true; }
+        if(VipSys.isVip(p)) { if(vipsSecondKits.get(p).equals(k)) { return true; } }
 
         return false;
     }

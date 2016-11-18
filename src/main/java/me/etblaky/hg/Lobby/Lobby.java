@@ -135,8 +135,8 @@ public class Lobby {
         p.setGameMode(GameMode.ADVENTURE);
         players.add(p);
 
-        kits.playersKits.put(p, Kit.Kits.BASIC);
-        if(VipSys.isVip(p)) { kits.vipsSecondKits.put(p, Kit.Kits.BASIC); }
+        //kits.playersKits.put(p, Kit.Kits.BASIC);
+        //if(VipSys.isVip(p)) { kits.vipsSecondKits.put(p, Kit.Kits.BASIC); }
 
         for(ItemStack is : items){
 

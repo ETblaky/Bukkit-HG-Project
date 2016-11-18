@@ -77,7 +77,7 @@ public class GameTimer {
                 }
 
                 if(time == 600){
-                    game.stop(null);
+                    game.stop();
                 }
 
             }

@@ -44,8 +44,8 @@ public class GameScoreboard {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName("HG-Project");
 
-        kit = objective.getScore(ChatColor.GREEN + "Kit: " + game.getKit().getName(p, false));
-        if(VipSys.isVip(p)){ vipKit = objective.getScore(ChatColor.GREEN + "Segundo Kit: " + game.getKit().getName(p, true)); }
+        kit = objective.getScore(ChatColor.GREEN + "Kit: " + (game.getKit().getName(p, false) != null ? game.getKit().getName(p, false) : ""));
+        if(VipSys.isVip(p)){ vipKit = objective.getScore(ChatColor.GREEN + "Segundo Kit: " + (game.getKit().getName(p, true) != null ? game.getKit().getName(p, true) : "")); }
         time = objective.getScore(ChatColor.GREEN + "Time: " + (game.getTimer().getTime() - 1));
         players = objective.getScore(ChatColor.GREEN + "Players: " + lobby.players.size());
 
