@@ -36,6 +36,7 @@ public class Berserker extends KitBase {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent e){
         if(e.getEntity().getKiller() == null) return;
+        if(!(e.getEntity() instanceof Player)) return;
 
         k = setKit(k, e.getEntity().getKiller());
         if(k== null) return;

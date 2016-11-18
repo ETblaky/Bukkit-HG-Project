@@ -34,10 +34,11 @@ public class Stomper extends KitBase {
     @EventHandler
     public void playerDamage(EntityDamageEvent e){
 
+        if(!(e.getEntity() instanceof Player)) return;
+
         k = setKit(k, (Player) e.getEntity());
         if(k== null) return;
 
-        if(!(e.getEntity() instanceof Player)) return;
         if(!k.isKit((Player) e.getEntity(), Kit.Kits.STOMPER)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
         if(e.getCause() != EntityDamageEvent.DamageCause.FALL) return;

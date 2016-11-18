@@ -98,10 +98,11 @@ public class Kangaroo extends KitBase {
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent e){
 
+        if(!(e.getEntity() instanceof Player)) return;
+
         k = setKit(k, (Player) e.getEntity());
         if(k== null) return;
 
-        if(!(e.getEntity() instanceof Player)) return;
         if(!k.isKit((Player) e.getEntity(), Kit.Kits.KANGAROO)) return;
         if(!k.getLobby().state.equals(Lobby.MatchState.GAME)) return;
         if(e.getCause() != EntityDamageEvent.DamageCause.FALL) return;
