@@ -169,6 +169,8 @@ public class Main extends JavaPlugin implements Listener{
         p.setMaxHealth(20);
         p.setHealth(20);
         p.setFoodLevel(20);
+        p.setLevel(0);
+        p.setExp(0);
     }
 
     @Override
