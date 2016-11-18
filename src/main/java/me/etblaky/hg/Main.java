@@ -63,7 +63,15 @@ public class Main extends JavaPlugin implements Listener{
             float yawG = Float.valueOf(String.valueOf(this.getConfig().getDouble("Matches." + key + ".Game.Yaw")));
             float pitchG = Float.valueOf(String.valueOf(this.getConfig().getDouble("Matches." + key + ".Game.Picth")));
 
+            World wCG = Bukkit.getWorld(this.getConfig().getString("Matches." + key + ".Game.Cake.world"));
+            double xCG = this.getConfig().getDouble("Matches." + key + ".Game.Cake.X");
+            double yCG = this.getConfig().getDouble("Matches." + key + ".Game.Cake.Y");
+            double zCG = this.getConfig().getDouble("Matches." + key + ".Game.Cake.Z");
+            float yawCG = Float.valueOf(String.valueOf(this.getConfig().getDouble("Matches." + key + ".Game.Cake.Yaw")));
+            float pitchCG = Float.valueOf(String.valueOf(this.getConfig().getDouble("Matches." + key + ".Game.Cake.Picth")));
+
             l.game.loc = new Location(wG, xG, yG, zG, yawG, pitchG);
+            l.game.cakeLoc = new Location(wCG, xCG, yCG, zCG, yawCG, pitchCG);
 
         }
     }
@@ -78,12 +86,19 @@ public class Main extends JavaPlugin implements Listener{
         float pitchL = l.loc.getPitch();
 
 
-        World wG = l.loc.getWorld();
-        double xG = l.loc.getBlockX();
-        double yG = l.loc.getBlockY();
-        double zG = l.loc.getBlockZ();
-        float yawG = l.loc.getYaw();
-        float pitchG = l.loc.getPitch();
+        World wG = l.game.loc.getWorld();
+        double xG = l.game.loc.getBlockX();
+        double yG = l.game.loc.getBlockY();
+        double zG = l.game.loc.getBlockZ();
+        float yawG = l.game.loc.getYaw();
+        float pitchG = l.game.loc.getPitch();
+
+        World wCG = l.game.cakeLoc.getWorld();
+        double xCG = l.game.cakeLoc.getBlockX();
+        double yCG = l.game.cakeLoc.getBlockY();
+        double zCG = l.game.cakeLoc.getBlockZ();
+        float yawCG = l.game.cakeLoc.getYaw();
+        float pitchCG = l.game.cakeLoc.getPitch();
 
         this.getConfig().set("Matches." + l.game.name + ".Lobby.world", wL.getName());
         this.getConfig().set("Matches." + l.game.name + ".Lobby.X", xL);
@@ -98,6 +113,13 @@ public class Main extends JavaPlugin implements Listener{
         this.getConfig().set("Matches." + l.game.name + ".Game.Z", zG);
         this.getConfig().set("Matches." + l.game.name + ".Game.Yaw", yawG);
         this.getConfig().set("Matches." + l.game.name + ".Game.Pitch", pitchG);
+
+        this.getConfig().set("Matches." + l.game.name + ".Game.Cake.world", wCG.getName());
+        this.getConfig().set("Matches." + l.game.name + ".Game.Cake.X", xCG);
+        this.getConfig().set("Matches." + l.game.name + ".Game.Cake.Y", yCG);
+        this.getConfig().set("Matches." + l.game.name + ".Game.Cake.Z", zCG);
+        this.getConfig().set("Matches." + l.game.name + ".Game.Cake.Yaw", yawCG);
+        this.getConfig().set("Matches." + l.game.name + ".Game.Cake.Pitch", pitchCG);
 
         this.saveConfig();
 

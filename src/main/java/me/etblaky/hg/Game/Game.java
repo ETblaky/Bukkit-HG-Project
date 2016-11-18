@@ -35,6 +35,8 @@ public class Game {
 
     public Location loc; //= new Location(Bukkit.getWorld("world"), -6 , 4, 23);
 
+    public Location cakeLoc; //= new Location(Bukkit.getWorld("world"), -6 , 4, 23);
+
     public static ArrayList<Game> games = new ArrayList<Game>();
 
     public Game(String n, Lobby l) {
@@ -122,8 +124,7 @@ public class Game {
             p.updateInventory();
         }
 
-        if(players.size() == 1) stop(players.get(0));
-        if(players.size() < 1) stop(null);
+        if(players.size() == 1) { stop(); }
 
     }
 
@@ -169,39 +170,40 @@ public class Game {
 
             p.getInventory().addItem(new ItemStack(Material.COMPASS));
 
-            for (ItemStack is : kits.getItems(p, false)) {
+            if(kits.getItems(p, false) != null) {
 
-                if(is.getMaxStackSize() > 1){
-                    if(is.getItemMeta().getLore() != null){
-                        ItemMeta im = is.getItemMeta();
-                        im.setLore(is.getItemMeta().getLore());
-                        is.setItemMeta(im);
-                    }
-                    p.getInventory().addItem(is);
-                }
+                for (ItemStack is : kits.getItems(p, false)) {
 
-                else {
-                    for(int i = 0; i < is.getAmount(); i ++){
-                        ItemStack is1 = new ItemStack(is.getType());
-                        if(is.getItemMeta().getEnchants().size() > 0){
-                            for(Enchantment e : is.getItemMeta().getEnchants().keySet()){
+                    if (is.getMaxStackSize() > 1) {
+                        if (is.getItemMeta().getLore() != null) {
+                            ItemMeta im = is.getItemMeta();
+                            im.setLore(is.getItemMeta().getLore());
+                            is.setItemMeta(im);
+                        }
+                        p.getInventory().addItem(is);
+                    } else {
+                        for (int i = 0; i < is.getAmount(); i++) {
+                            ItemStack is1 = new ItemStack(is.getType());
+                            if (is.getItemMeta().getEnchants().size() > 0) {
+                                for (Enchantment e : is.getItemMeta().getEnchants().keySet()) {
+                                    ItemMeta im = is1.getItemMeta();
+                                    im.addEnchant(e, is.getItemMeta().getEnchants().get(e), true);
+                                    is1.setItemMeta(im);
+                                }
+                            }
+                            if (is.getItemMeta().getLore() != null) {
                                 ItemMeta im = is1.getItemMeta();
-                                im.addEnchant(e, is.getItemMeta().getEnchants().get(e), true);
+                                im.setLore(is.getItemMeta().getLore());
                                 is1.setItemMeta(im);
                             }
+                            p.getInventory().addItem(is1);
                         }
-                        if(is.getItemMeta().getLore() != null){
-                            ItemMeta im = is1.getItemMeta();
-                            im.setLore(is.getItemMeta().getLore());
-                            is1.setItemMeta(im);
-                        }
-                        p.getInventory().addItem(is1);
                     }
-                }
 
+                }
             }
 
-            if(VipSys.isVip(p)){
+            if(VipSys.isVip(p) && kits.getItems(p, true) != null){
                 for (ItemStack is : kits.getItems(p, true)) {
 
                     if(is.getMaxStackSize() > 1){
@@ -251,17 +253,25 @@ public class Game {
         getTimer().start();
     }
 
-    public void stop(Player p1){
+    public void stop(){
 
         System.out.println("Stopping");
 
         lobby.state = Lobby.MatchState.RELOADING;
 
-        if(p1 != null){
+        Player lastOne = null;
+
+        if(players.size() == 1) { lastOne = players.get(0); }
+
+        if(lastOne != null){
             //TODO: Telepot p1 to cake area
+
+            lastOne.teleport(cakeLoc);
+            lastOne.setGameMode(GameMode.ADVENTURE);
 
             for(Player p : spectators) {
                 //TODO: Telepot spectators to cake area
+                p.teleport(cakeLoc);
             }
         }
 
